@@ -1,0 +1,231 @@
+body{
+    box-sizing: border-box;
+    width: 100%;
+    max-width : 720px;
+    margin: auto;
+}
+
+#container{
+    width: 100%;
+    max-width:720px;
+}
+
+/*//////헤드 부분///////*/
+#head-container #head-header {
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: center;
+    margin: 3% 4%;
+    font-weight: bold;
+}
+#head-header #left-wrap {
+    font-size: 5vw;
+    font-weight: bold;
+    padding-left: 2%;
+}
+/*오른쪽 상단 메뉴 (토글,게시글)*/
+#head-header #right-wrap{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 30%;
+}
+#head-header #right-wrap img
+{
+    margin: 3px 5px;
+    padding-right: 20px;
+    width: 9vw;
+}
+#togBtn span img
+{
+    margin: 3px 5px;
+    padding-right: 20px;
+    width: 20%;
+}
+/*토글*/
+#togBtn input[type=checkbox]{
+    display: none;
+}
+/*3자 바 이미지*/
+#togBtn label{
+    width: 10vw;
+}
+
+/*메뉴 숨김*/
+#togBtn .toggle_menu{
+    display: none;
+    list-style: none;
+    border: 1px solid gray;
+    margin-left: 50%;
+    padding: 0 5px;
+
+}
+#togBtn a{
+    color: black;
+    text-decoration: none;
+    font-size: 15px;
+}
+#togBtn hr{
+    margin: 0;
+}
+/*메뉴 펼침*/
+#togBtn input[type=checkbox]:checked ~.toggle_menu{
+    display: block;
+}
+
+
+
+/*/////////////////*/
+#head-mid
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 2%;
+    margin-top: 3%;
+    border-bottom: 1px solid gray;
+}
+#head-mid img{
+    width:20%;
+    margin-left: 4%;
+}
+#head-mid #profile_pic img{
+    width: 20vw;
+    height: 20vw;
+    border-radius: 60%;
+    border:1px solid black;
+    margin-left: 7%;
+    margin-bottom: 0;
+}
+#profile_pic p {
+    font-size: 3vw;
+    margin-bottom: 8%;
+    font-weight: bold;
+    margin-left: 8%;
+}
+#head-mid #head-mid-right
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    font-size: 3vw;
+    font-weight: bold;
+    padding-left: 10%;
+}
+#head-mid-right p {
+    margin-bottom: 0;
+}
+#head-mid #post
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+#head-mid #follower
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#head-mid #following
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-right: 9%
+;
+}
+#head-bottom{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+
+
+/* 포스트 컨테이너*/
+#Post-container{
+    margin-top: 0;
+    margin-bottom: 0;
+    display: flex;
+    flex-direction: column;
+
+}
+#Post-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid lightgray;
+    margin-left: 0.5%;
+}
+#first_tab {
+    width: 100px;
+    margin: auto;
+    padding: 15px;
+}
+#Post-header #first_tab img{
+    width :40px;
+}
+
+#second_tab {
+    width: 100px;
+    margin: auto;
+    padding: 15px;
+}
+#Post-header #second_tab img{
+    width: 40px;
+}
+
+
+#Post-mid #grid-container {
+    display: grid;
+    grid-area: auto;
+    grid-template-columns: 233px 233px 233px;
+    grid-template-rows: 233px 233px 233px 233px;
+    grid-row-gap: 0;
+    grid-column-gap: 0;
+    width: 700px;
+    margin-left: 2%;
+}
+.grid_item{
+    border: 1px solid gray;
+}
+#grid-container img {
+     width: 100%;
+     max-width: 100%;
+     height: auto;
+    display: block;
+}
+
+/* 풋 컨테이너 */
+
+#foot-container{
+ background-color: whitesmoke;
+ position: fixed;
+ width: 100%;
+ max-width: 720px;
+ border-top: 1px solid lightgray;
+ bottom: 0;
+
+}
+#foot-container #foot_icon_wrapper
+{
+ margin: 4% 6%;
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+}
+#foot-container #foot_icon_wrapper img{
+ width: 40px;
+}

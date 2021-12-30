@@ -1,22 +1,105 @@
-<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="/static/my_page.css">
+    <title>mypage</title>
+
+    <script>
+        // 로그아웃은 내가 가지고 있는 토큰만 쿠키에서 없애면 됩니다.
+        function logout(){
+            $.removeCookie('mytoken');
+            alert('로그아웃!')
+            window.location.href='/login'
+        }
+    </script>
+
 </head>
 <body>
+    <div id ="container">
+        <div id = "head-container">
+            <div id ="head-header">
+                <div id="left-wrap">
+                    <p>GANG_NAM</p>
+                </div>
+                <div id="right-wrap">
 
-</body>
-=======
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+                    <div id="togBtn">
+                        <img src="/static/image/trending@3x.png" >
+                        <input type="checkbox" class="" id="toggle">
+                        <label for ="toggle"><span><img src="/static/image/bars.png" style="width: 100%"></span></label>
+                        <ul id ="toggle_menu" class="toggle_menu">
+                            <li><a href="#" onclick="">만든 사람</a></li>
+                            <hr>
+                            <li><a href="#" onclick="logout()">Log-out</a></li>
 
+                    </ul>
+                    </div>
+                </div>
+            </div>
+            <div id="head-mid">
+                <div id = "profile_pic">
+                <img src="/static/image/img.png"  onclick=" ">
+                    <p>사용자</p>
+                </div>
+                <div id ="head-mid-right">
+                    <div id ="post">
+                        <p>0</p>
+                        <p>게시물</p>
+                    </div>
+                    <div id ="follower">
+                        <p>0</p>
+                        <p>팔로워</p>
+                    </div>
+                    <div id ="following">
+                        <p>0</p>
+                        <p>팔로잉</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id = "Post-container">
+                <div id ="Post-header">
+                    <div id ="first_tab">
+                    <img src="/static/image/photo.png" class="post_icon">
+                        </div>
+                    <div id ="second_tab">
+                    <img src="/static/image/more@3x.png" class="post_icon">
+                    </div>
+                </div>
+                <div id ="Post-mid">
+                    <div id ="grid-container">
+                        <div class="grid_item"><img src="/static/image/img.png" alt=""></div>
+                        <div class="grid_item"><img src="/static/image/img.png" alt=""></div>
+                        <div class="grid_item"><img src="/static/image/img.png" alt=""></div>
+                        <div class="grid_item"><img src="/static/image/img.png" alt=""></div>
+                        <div class="grid_item"><img src="/static/image/img.png" alt=""></div>
+                        <div class="grid_item"><img src="/static/image/img.png" alt=""></div>
+                        <div class="grid_item"><img src="/static/image/img.png" alt=""></div>
+                        <div class="grid_item"><img src="/static/image/img.png" alt=""></div>
+                        <div class="grid_item"><img src="/static/image/img.png" alt=""></div>
+                        <div class="grid_item"><img src="/static/image/img.png" alt=""></div>
+                        <div class="grid_item"><img src="/static/image/img.png" alt=""></div>
+                        <div class="grid_item"><img src="/static/image/img.png" alt=""></div>
+                </div>
+
+            </div>
+        </div>
+        <div id="foot-container">
+            <div id ="foot_icon_wrapper">
+                <img  src="/static/image/home@3x.png">
+                <img  src="/static/image/search@3x.png">
+                <img  src="/static/image/trending@3x.png">
+                <img  src="/static/image/like@3x.png">
+                <img  src="/static/image/mypage.png">
+            </div>
+        </div>
+    </div>
 </body>
->>>>>>> ec26bbedf283f9e7fba18555d796bd5a198bfe68
-</html>

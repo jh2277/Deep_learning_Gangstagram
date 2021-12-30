@@ -1,0 +1,24 @@
+.mytitle {
+    width: 100%;
+    max-width: 780px;
+    color: black;
+    text-align: left;
+
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px;
+
+}
+.wrap {
+    width :300px;
+    max-width: 780px;
+    height : 60%;
+    margin: auto;
+    padding-top: 20%;
+}
+.logo
+{
+    width: 30%;
+    padding-top: 2%;
+    padding-left: 2%;
+}

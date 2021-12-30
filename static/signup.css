@@ -1,0 +1,48 @@
+.container {
+    width: 300px;
+    max-width: 780px;
+    height: 60%;
+    margin: 3% auto auto;
+}
+
+.logo {
+    width: 30%;
+    padding-top: 2%;
+    padding-left: 2%;
+}
+
+.mytitle {
+    width: 100%;
+    max-width: 780px;
+    color: black;
+    text-align: left;
+
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px;
+
+}
+
+#sex_check {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: left;
+}
+
+#sex_check .form-check2 {
+    margin-left: 5%;
+}
+
+#dogsize {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: left;
+}
+
+#dogsize .form-check2 {
+    margin-left: 8%;
+}
