@@ -26,12 +26,17 @@
         window.location.href='/login'
       }
 
+      function walkmate(){
+        window.location.href='/walkmate'
+      }
+
     </script>
 
   </head>
   <body>
     <!-- jinja2 방식으로 작성한 닉네임 -->
     <h5 class="subtitle">닉네임 : {{nickname}}</h5>
+    <button class="button2" onclick="walkmate()">산책 메이트 찾기</button>
     <button class="button is-danger" onclick="logout()">로그아웃</button>
   </body>
 </html>

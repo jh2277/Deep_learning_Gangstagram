@@ -68,10 +68,11 @@ def register_post():
     email_receive = request.form['email_give']
     pw_receive = request.form['pw_give']
     nickname_receive = request.form['nickname_give']
+    address_receive = request.form['address_give']
     owner_gender_receive = request.form['owner_gender_give']
-    address_city_receive = request.form['address_city_give']
-    address_gu_receive = request.form['address_gu_give']
-    address_dong_receive = request.form['address_dong_give']
+    # title_receive = request.form['title_give']
+    # file = request.files['file_give']
+    # hash_receive = request.form['hash_give']
     dog_breed_receive = request.form['dog_breed_give']
     dog_size_receive = request.form['dog_size_give']
 
@@ -81,12 +82,9 @@ def register_post():
         'email': email_receive,
         'pw': pw_hash,
         'nickname': nickname_receive,
+        'address': address_receive,
         'owner_gender': owner_gender_receive,
-        'address': {
-            'address_city': address_city_receive,
-            'address_gu': address_gu_receive,
-            'address_dong': address_dong_receive
-        },
+        # 이 부분에 이미지 저장 부분 추가.
         'dog_breed': dog_breed_receive,
         'dog_size': dog_size_receive
     }
@@ -188,33 +186,91 @@ def my_page():
 # 산책 메이트 정보 선택 사항 받기
 @app.route('/walkmate/search', methods=["POST"])
 def select_walkmate_conditions():
-    # 산책메이트 조건에 해당하는 항목들의 값 가져오기
-    address_city_receive = request.form['address_city_give']
-    address_gu_receive = request.form['address_gu_give']
-    address_dong_receive = request.form['address_dong_give']
-    owner_gender = request.form['owner_gender']
-    dog_size = request.form['dog_size']
+    # 임시 조건 콜렉션 내 모든 도큐먼트 삭제로 db 초기화
+    db.temp_condition_db.drop()
 
-    # 산책메이트 조건 뽑아서 dictionary에 저장
+    # 산책메이트 조건에 해당하는 항목들의 값 가져오기
+    address_receive = request.form['address_give']
+    owner_gender_receive = request.form['owner_gender_give']
+    dog_size_receive = request.form['dog_size_give']
+
+    # 빈 리스트 선언
+    # searched_members = []
+    # 리스트에 다중 조건으로 해당 조건들과 일치하는 멤버들을 빈 리스트에 append 해줌.
+    # for m in db.members.find({
+    #     'address': address_receive,
+    #     'owner_gender': owner_gender_receive,
+    #     'dog_size': dog_size_receive},{'_id':False}):
+    #     # for문 내부
+    #     searched_members.append(m)
+
+    ### 새로운 해결방안 부분 ###
     doc = {
-        'address_city_receive': address_city_receive,
-        'address_gu_receive': address_gu_receive,
-        'address_dong_receive': address_dong_receive,
-        'owner_gender': owner_gender,
-        'dog_size': dog_size
+        "address": address_receive,  # 주소
+        "owner_gender": owner_gender_receive,  # (견주)성별
+        "dog_size": dog_size_receive,  # 견 크기
     }
-    db.same_info_list.insert_one(doc)
-    return jsonify({'msg': '조건에 맞는 회원을 확인합니다'})
+    # 임시 조건 db에 저장
+    db.temp_condition_db.insert_one(doc)
+    return jsonify({'result': 'success'})
+    ### 새로운 해결방안 부분 ###
+
+
+    # print(searched_members)
+
+    # searched_members가 비어있지 않다면 즉, 발견했다면(0이 아닌 숫자는 True이므로)
+    # if searched_members:
+        # 고생의 흔적들. 아래 세개의 함수를 각각 언제 써야하는지에 대해 공부.
+        # return jsonify({'result': 'success', 'found_members': searched_members})
+        # return render_template('walkmate_list.html', found_members=searched_members)
+        # return redirect(url_for('move_walkmate_list', found_members=searched_members))
+    # else:
+        # 멤버를 찾지 못한 경우 원래의 조건 검색 페이지에서 실패 메시지 출력 후 다시 검색하도록 함.
+        # return jsonify({'result': 'fail', 'msg': '아무도 없네요ㅜ..다른 조건으로 검색해주세요.'})
+
+
+### 새로운 해결방안 부분 ###
+@app.route('/walkmate/search', methods=["GET"])
+def move_walkmate_list():
+    return render_template('walkmate_list.html')
+### 새로운 해결방안 부분 ###
+
+### 새로운 해결방안 부분 ###
+@app.route('/walkmate/list')
+def find_list():
+    con_li = list(db.temp_condition_db.find({}, {'_id': False}))
+    address_condition = con_li[0]['address']
+    owner_gender_condition = con_li[0]['owner_gender']
+    dog_size_condition = con_li[0]['dog_size']
+
+    # 빈 리스트 선언
+    searched_members = []
+    # 리스트에 다중 조건으로 해당 조건들과 일치하는 멤버들을 빈 리스트에 append 해줌.
+    for m in db.members.find({
+        'address': address_condition,
+        'owner_gender': owner_gender_condition,
+        'dog_size': dog_size_condition},{'_id':False}):
+        # for문 내부
+        searched_members.append(m)
+
+    return jsonify({'searched_members': searched_members})
+### 새로운 해결방안 부분 ###
 
 ############################
 # walkmate_list.html / 산책 메이트 목록 출력 페이지 API #
 ############################
-# 산책 메이트 조건 선택 사항과 일치하는 리스트를 회원가입 정보에서 가져오기
-@app.route('/walkmate/list', methods=["GET"])
-def print_walkmate_list():
-    selected_info_list = list(db.same_info_list.find({}, {'_id': False}))
+# @app.route('/walkmate/list')
+# def move_walkmate_list():
+    ### 새로운 해결방안 부분 ###
+#    return render_template('walkmate_list.html')
+    ### 새로운 해결방안 부분 ###
 
-    return jsonify({'selected_info_list': selected_info_list})
+
+    # found_members = request.args.get('found_members')
+    # print(type(found_members))
+    # print('move_walkmate_list : ' + found_members)
+    # return render_template('walkmate_list.html', found_members=found_members)
+
 
 ############################
 # add_post.html / 스토리 게시글 추가 API #

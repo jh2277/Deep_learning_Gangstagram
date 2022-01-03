@@ -1,7 +1,7 @@
 .container {
     width: 300px;
     max-width: 780px;
-    height: 60%;
+    height: auto;
     margin: 3% auto auto;
 }
 
@@ -45,4 +45,23 @@
 
 #dogsize .form-check2 {
     margin-left: 8%;
+}
+
+#residence {
+    width: 100%;
+}
+
+#address_dong {
+    width: 163px;
+}
+
+.col {
+    display: flex;
+    justify-content: right;
+}
+
+#address_selectbox {
+    width: 100%;
+    margin-top: 1%;
+    margin-bottom: 1%;
 }

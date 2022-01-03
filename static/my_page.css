@@ -6,7 +6,8 @@ body{
 }
 
 #container{
-    width: 100%;
+    margin: auto;
+    width: 95%;
     max-width:720px;
 }
 
@@ -17,13 +18,15 @@ body{
     flex-direction: row;
     justify-content: space-between;
     text-align: center;
-    margin: 3% 4%;
+
     font-weight: bold;
+    width: 95%;
+    position: fixed;
 }
 #head-header #left-wrap {
     font-size: 5vw;
     font-weight: bold;
-    padding-left: 2%;
+
 }
 /*오른쪽 상단 메뉴 (토글,게시글)*/
 #head-header #right-wrap{
@@ -58,14 +61,16 @@ body{
     display: none;
     list-style: none;
     border: 1px solid gray;
-    margin-left: 50%;
+    margin-left: 35%;
+    margin-bottom: 0;
     padding: 0 5px;
+    width: 77%;
 
 }
 #togBtn a{
     color: black;
     text-decoration: none;
-    font-size: 15px;
+    font-size: 1vw;
 }
 #togBtn hr{
     margin: 0;
@@ -78,21 +83,17 @@ body{
 
 
 /*/////////////////*/
-#head-mid
+#post-top-mid
 {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin-left: 2%;
-    margin-top: 3%;
+    margin-top: 18%;
     border-bottom: 1px solid gray;
 }
-#head-mid img{
-    width:20%;
-    margin-left: 4%;
-}
-#head-mid #profile_pic img{
+
+#post-top #profile_pic img{
     width: 20vw;
     height: 20vw;
     border-radius: 60%;
@@ -106,21 +107,21 @@ body{
     font-weight: bold;
     margin-left: 8%;
 }
-#head-mid #head-mid-right
+#post-top #post-top-mid-right
 {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
-    width: 100%;
-    font-size: 3vw;
+    width: 95%;
+    font-size: 4vw;
     font-weight: bold;
     padding-left: 10%;
 }
-#head-mid-right p {
+#post-top-mid-right p {
     margin-bottom: 0;
 }
-#head-mid #post
+#post-top #post
 {
     display: flex;
     flex-direction: column;
@@ -128,14 +129,14 @@ body{
     align-items: center;
 
 }
-#head-mid #follower
+#post-top #follower
 {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
-#head-mid #following
+#post-top #following
 {
     display: flex;
     flex-direction: column;
@@ -167,21 +168,23 @@ body{
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid lightgray;
-    margin-left: 0.5%;
+
 }
 #first_tab {
-    width: 100px;
+    width: 1vw;
+    display: block;
     margin: auto;
-    padding: 15px;
+    padding: 2vw 0;
 }
 #Post-header #first_tab img{
     width :40px;
 }
 
 #second_tab {
-    width: 100px;
+    width: 1vw;
     margin: auto;
-    padding: 15px;
+    display: block;
+    padding: 1vw 0;
 }
 #Post-header #second_tab img{
     width: 40px;
@@ -190,13 +193,11 @@ body{
 
 #Post-mid #grid-container {
     display: grid;
-    grid-area: auto;
-    grid-template-columns: 233px 233px 233px;
-    grid-template-rows: 233px 233px 233px 233px;
+    grid-template-columns: 33% 33% 33%;
+    grid-template-rows: 70% 70% 70% 70%;
     grid-row-gap: 0;
     grid-column-gap: 0;
-    width: 700px;
-    margin-left: 2%;
+    width: 100%;
 }
 .grid_item{
     border: 1px solid gray;
@@ -213,7 +214,7 @@ body{
 #foot-container{
  background-color: whitesmoke;
  position: fixed;
- width: 100%;
+ width: 95%;
  max-width: 720px;
  border-top: 1px solid lightgray;
  bottom: 0;

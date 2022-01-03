@@ -1,0 +1,104 @@
+#container{
+    margin: 0 auto;
+    max-width: 375px;
+
+}
+
+#top{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position:fixed;
+    top:0;
+    width: 100%;
+    max-width: 375px;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    border-bottom: 2px solid lightgray;
+    background-color: white;
+}
+#top .logo{
+    width: 30%;
+    padding-top: 1%;
+    padding-left: 2%;
+}
+#top .postadd{
+    margin-right: 5%;
+    width: 6%;
+}
+
+#title{
+    width:100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 20%;
+}
+
+.titleword {
+    margin-left: 10%;
+    font-size: 4.5vw;
+    max-font-size: 6vw;
+}
+
+
+.user-container{
+    padding-top: 2%;
+    padding-bottom: 2%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-left: 2%;
+    margin-bottom: 12%;
+
+}
+.user-wrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-left: 3%;
+
+}
+
+.user-wrapper .user-icon{
+    width: 12%;
+    height: 12%;
+    border-radius: 50%;
+}
+.user-wrapper .user_dog_info{
+    width: 170px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-left: 5%;
+}
+.user-wrapper .user-text{
+    font-size: 16px;
+    margin: auto 0;
+}
+.btn-group{
+
+}
+
+#footer{
+    background-color: whitesmoke;
+    position: fixed;
+    width: 100%;
+    max-width: 375px;
+    padding-top: 5%;
+    padding-bottom: 5%;
+    border: 1px solid lightgray;
+    bottom: 0;
+
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+#footer .footer-icon{
+    width: 8%;
+}
