@@ -1,17 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <title>스토리 게시글 추가 페이지</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="/static/add.post.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+            crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <title>스토리 게시글 추가 페이지</title>
 
   <script>
   function posting() {
     let nickname = '{{ nickname }}';
     let file = $('#file')[0].files[0]
-    let comment = $('#comment').val()
+    let comment = $('#comment').val() //추가
     let hash = $('#hash').val()
     let form_data = new FormData()
 
@@ -34,15 +41,83 @@
         }
     });
   }
+
+  // 메인(홈) 페이지로 이동
+  function home() {
+      window.location.href = '/'
+  }
+  // 게시글 추가 페이지로 이동
+  function add_post() {
+      window.location.href = '/add_post'
+  }
+  // 산책 메이트 찾기 페이지로 이동
+  function find_walkmate() {
+      window.location.href = '/walkmate'
+  }
+  // 산책 가능 여부 페이지로 이동
+  function walk_possible() {
+      window.location.href = '/walk_possible'
+  }
+  // 펫 상품관 페이지로 이동
+  function pet_goods() {
+      window.location.href = '/shop'
+  }
+  // 마이 페이지로 이동
+  function my_page() {
+      window.location.href = '/my_page'
+  }
 </script>
 </head>
 
 <body>
-  <div class="file-upload">
-    <input type="file" id="file">
-    <input style="width:300px;" type="text" id="comment" placeholder="코멘트를 남겨주세요">
-    <input style="width:300px;" type="text" id="hash" placeholder="관련 해시태그를 달아주세요">
-    <button onclick="posting()">업로드</button>
-  </div>
+<div id="container">
+
+    <div id="top">
+        <img src="{{ url_for('static', filename='/image/img.png') }}" class="logo" alt="gangstagram">
+        <img src="{{ url_for('static', filename='/image/trending@3x.png') }}" onclick="add_post()" class="postadd" alt="gangstagram">
+    </div>
+
+    <div id="Post-box">
+        <div id="titleup">
+            <h1><strong>게시글 작성하기</strong></h1>
+        </div>
+        <br>
+
+        <div id="info_wrap">
+
+            <div class="form-floating mb-3">
+                <input type="text" id="hash" class="form-control" placeholder="관련 해시태그를 달아주세요">
+                <label for="floatingInput">#해시태그를 달아주세요</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="text" id="comment" class="form-control" placeholder="코멘트를 남겨주세요">
+                <label for="floatingInput">코멘트를 남겨주세요</label>
+            </div>
+            <div class="input-group">
+                <input type="file" class="form-control" id="file" aria-describedby="inputGroupFileAddon04"
+                       aria-label="Upload">
+            </div>
+            <br>
+            <div id="upload-container">
+                <button onclick="posting()" class="btn btn-primary" type="button" id="inputGroupFileAddon04">
+                    작성 완료
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="foot">
+        <div id="footer">
+            <img alt="home" class="footer-icon" src="{{ url_for('static', filename='/image/home@3x.png') }}" onclick="home()">
+            <img alt="search" class="footer-icon" src="{{ url_for('static', filename='/image/search@3x.png')}}" onclick="find_walkmate()">
+            <img alt="season" class="footer-icon" src="{{ url_for('static', filename='/image/season.png') }}" onclick="walk_possible()">
+            <img alt="shop" class="footer-icon" src="{{ url_for('static', filename='/image/shopping-bag.png') }}" onclick="pet_goods()">
+            <img alt="mypage" class="footer-icon" src="{{ url_for('static', filename='/image/mypage.png') }}" onclick="my_page()">
+        </div>
+    </div>
+
+
+</div>
 </body>
 </html>

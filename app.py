@@ -319,11 +319,15 @@ def story_add_post():
     return jsonify({'msg': '작성 완료'})
 
 # 게시글 불러오기
-@app.route('/add_post', methods=["GET"])
+@app.route('/get_post', methods=["GET"])
 def story_get():
     story_list = list(db.all_story.find({}, {'_id': False}))
     # 리스트를 역순으로 배열해, 출력시 가장 최근 게시물이 가장 앞에 오게끔 한다.
-    story_list = sorted(story_list, reverse=True)
+    # story_list = sorted(story_list, reverse=True)
+    # story_list = story_list.sort(reverse=True)
+
+    story_list.reverse()
+    print(story_list)
     return jsonify({'orders': story_list})
 
 
@@ -333,8 +337,8 @@ def story_get():
 # 마이 페이지에서 내 전체 게시물 보기
 @app.route('/my_page/my_story', methods=["GET"])
 def my_story():
-    my_story_list = list(db.all_story.find({}, {'denote': 0}, {'_id': False}))
-    my_story_list = sorted(my_story_list, reverse=True)
+    my_story_list = list(db.all_story.find({}, {'_id': False}))
+    my_story_list.reverse()
     return jsonify({'my_story_list': my_story_list})
 
 # __name__은 모듈의 이름이 저장되는 변수이며 import로 모듈을 가져왔을 때 모듈의 이름이 들어감.

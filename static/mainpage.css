@@ -1,7 +1,7 @@
 #container {
     margin: 0 auto;
-    max-width: 700px;
-    border: 1px solid lightgray;
+    max-width: 375px;
+
 }
 
 #top-container{
@@ -10,7 +10,7 @@
     align-items: center;
     position: fixed;
     width: 100%;
-    max-width: 700px;
+    max-width: 375px;
     top: 0;
     padding-top: 1%;
     margin-bottom: 12%;
@@ -29,7 +29,7 @@
 }
 
 .user-container{
-    margin-top : 12%;
+    margin-top : 15%;
     padding-bottom: 1%;
 
     width: 100%;
@@ -65,11 +65,10 @@
 .mytitle {
     min-height: 500px;
     width: 80%;
-    background-image: url("https://t2.daumcdn.net/thumb/R720x0.fjpg/?fname=http://t1.daumcdn.net/brunch/service/guest/image/xahGXVwHnCHQlx7z4PyWOPFTyxw.JPG");
+    background-color: bisque;
     background-position: center;
     background-size: cover;
-
-    color: white;
+    border-radius: 10%;
 
     display: flex;
     flex-direction: column;
@@ -77,6 +76,18 @@
     align-items: center;
     padding: 0 50px;
 }
+.post_image{
+    max-width: 250px;
+}
+.comment_hash_wrap{
+    width:100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
 .like_etc-container{
     margin-left: 5%;
     width: 90%;
@@ -93,7 +104,7 @@
 
 .timeline{
     width: 100%;
-    margin-bottom: 10%;
+    margin-bottom: 22%;
 }
 .timeline-text{
     font-size: 11px;
@@ -107,22 +118,19 @@
 }
 
 #footer{
+    background-color: whitesmoke;
     position: fixed;
     width: 100%;
-    max-width: 700px;
-    padding-top: 1.5%;
-    padding-bottom: 1%;
+    max-width: 375px;
+    padding-top: 5%;
+    padding-bottom: 5%;
     border: 1px solid lightgray;
     bottom: 0;
-    background-color: white;
+
     display: flex;
     justify-content: space-around;
     align-items: center;
 }
 #footer .footer-icon{
-    width: 6%;
+    width: 8%;
 }
-
-
-
-

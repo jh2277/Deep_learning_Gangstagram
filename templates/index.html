@@ -25,45 +25,59 @@
 
 
     <script>
-        function reload_index(){
-            alert({{ nickname }})
-            window.location.reload()
+        $(document).ready(function () { // 시작하자마자 함수 부름.
+            get_story();
+        });
+
+        // 로그아웃은 내가 가지고 있는 토큰만 쿠키에서 없애면 됩니다.
+        function logout() {
+            $.removeCookie('mytoken');
+            alert('로그아웃!')
+            window.location.href = '/login'
         }
 
         // 메인 페이지 출력시 게시물들이 자동 포스팅, 가장 최신 게시물이 제일 위에 오도록
         function get_story() {
             $.ajax({                // get 요청이 들어갑니다 어디로? / 로!
                 type: 'GET',        // 그리고 response를 받아와서 카드를 만들어서 붙여주면 된다
-                url: '/add_post',           // 붙여주는건 temp_html = ``
+                url: '/get_post',   // 붙여주는건 temp_html = ``
                 data: {},
                 success: function (response) {
-                    let rows = response['story_list']
+                    let rows = response['orders']
                     for (let i = 0; i < rows.length; i++) {
                         let img = rows[i]['img']
                         let comment = rows[i]['comment']
                         let hash = rows[i]['hash']
+                        let nickname = rows[i]['nickname']
+                        let my_time = rows[i]['my_time']
 
                         let temp_html = `
-                                <div className="all-posting">
-                                    <img src="${img}" className="수정필요">
-                                        <div className="수정필요">
-                                            <p className="comment">${comment}</p>
-                                            <p className="hash">${hash}</p>
+                                        <div class="user-container">
+                                            <div class="user-wrapper">
+                                                <img src="/static/profile/${img}" class="user-icon" alt="story_icon">
+                                                <p class="user-text"><strong>${nickname}</strong></p>
+                                            </div>
                                         </div>
-                                </div>
-                                <div class="post-icons-wrapper">
-                                        <div class="left-wrapper">
-                                            <!-- 아이콘 크기가 달라서 부득이 하게 이렇게 만들었으나, 클래스 없이 img로 처리하는게 맞습니다! -->
-                                            <img class="post-icon" src="img/like@3x.png">
-                                            <img class="post-icon-2" src="img/comment@3x.png">
-                                            <img class="post-icon" src="img/dm@3x.png">
+                                        <div class="post-container">
+                                            <div class="mytitle">
+                                                <img src="/static/story/${img}" class="post_image">
+                                                <div class="comment_hash_wrap">
+                                                    <p class="comment">${comment}</p>
+                                                    <p class="hash">${hash}</p>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="right-wrapper">
-                                            <img src="img/favorite@3x.png">
+                                        <div class="like_etc-container">
+                                            <img src="/static/image/like@3x.png" class="like_etc-icon2" alt="story_icon">
+                                            <img src="/static/image/favorite@3x.png" class="like_etc-icon2"
                                         </div>
-                                 </div>
-                        `
-                        $('#post-body').append(temp_html)
+                                        <div class="timeline">
+                                            <p class="timeline-text">포스팅 시간 : ${my_time}</p>
+                                            <div class="line">
+                                                <hr>
+                                            </div>
+                                        </div>`
+                        $('.lemon').append(temp_html) //게시물 올리는 곳 있는데
                     }
                 }
             });
@@ -92,13 +106,6 @@
         function my_page() {
             window.location.href = '/my_page'
         }
-
-        // 로그아웃은 내가 가지고 있는 토큰만 쿠키에서 없애면 됩니다.
-        function logout() {
-            $.removeCookie('mytoken');
-            alert('로그아웃!')
-            window.location.href = '/login'
-        }
     </script>
 
 </head>
@@ -107,44 +114,24 @@
     <div id="top-container">
         <img src="{{ url_for('static', filename='/image/img.png') }}" class="logo" alt="gangstagram">
         <img src="{{ url_for('static', filename='/image/trending@3x.png') }}" onclick="add_post()" class="postadd" alt="gangstagram">
-        <button onclick="logout()">버튼</button>
+        <button onclick="logout()">로그아웃</button>
     </div>
 
-    <div class="user-container">
-        <div class="user-wrapper">
-            <img src="{{ url_for('static', filename='/image/backgu.jpg') }}" class="user-icon" alt="story_icon">
-            <p class="user-text"><strong>neworld27</strong></p>
-        </div>
+
+     <!-- 묶기 위함 -->
+    <div class="lemon">
+
     </div>
 
-    <div class="post-container">
-        <div class="mytitle">
-            <div>
-                <div class="post-body">
 
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="like_etc-container">
-        <img src="{{ url_for('static', filename='/image/like@3x.png') }}" class="like_etc-icon2" alt="story_icon">
-        <img src="{{ url_for('static', filename='/image/favorite@3x.png') }}" class="like_etc-icon2" alt="story_icon">
-    </div>
-
-    <div class="timeline">
-        <p class="timeline-text">6시간 전</p>
-        <div class="line">
-            <hr>
-        </div>
-    </div>
-
-    <div id="footer">
-        <img alt="home" class="footer-icon" src="{{ url_for('static', filename='/image/home@3x.png') }}" onclick="home()">
+    <div id="foot">
+        <div id="footer">
+            <img alt="home" class="footer-icon" src="{{ url_for('static', filename='/image/home@3x.png') }}" onclick="home()">
             <img alt="search" class="footer-icon" src="{{ url_for('static', filename='/image/search@3x.png')}}" onclick="find_walkmate()">
             <img alt="season" class="footer-icon" src="{{ url_for('static', filename='/image/season.png') }}" onclick="walk_possible()">
             <img alt="shop" class="footer-icon" src="{{ url_for('static', filename='/image/shopping-bag.png') }}" onclick="pet_goods()">
             <img alt="mypage" class="footer-icon" src="{{ url_for('static', filename='/image/mypage.png') }}" onclick="my_page()">
+        </div>
     </div>
 
 </div>
