@@ -1,0 +1,80 @@
+body{;
+     max-height: 300px;
+     max-width: 400px;
+     margin: auto;
+     padding-top:100px ;
+}
+
+ /* Wrap  */
+ #modal_wrap{
+     height: 95%;
+     width: 90%;
+     max-width: 300px;
+     max-height: 400px;
+     margin: auto;
+     border: 3px solid gray;
+    position: relative;
+ }
+  /*  TOP  */
+
+ #Top{
+     display: flex;
+     flex-direction: row;
+     justify-content: space-between;
+     align-items: center;
+     border-bottom: 2px solid gray;
+ }
+ #Top #left_logo{
+     width: 100%;
+     margin-left: 4%;
+ }
+ #Top #right-cancel{
+     width: 100%;
+     margin-right: 4%;
+ }
+ #Top .logo{
+     width: 50%;
+ }
+ #Top .cancel{
+     width: 10%;
+     float: right;
+ }
+
+ #Top button{
+     width: 30px;
+ }
+ #Mid #weather_status {
+     margin-top:5%;
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+     align-items: center;
+ }
+ #Mid img{
+     width: 150px;
+     margin-bottom: 30px;
+ }
+ #Mid #font {
+     font-size: 20px;
+     font-family: BM Dohyeon;
+     font-weight: bold;
+     color: black;
+     text-decoration: none;
+     text-align: center;
+ }
+ #bottom{
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+     text-align: center;
+     margin-top: 10%;
+ }
+
+ #bottom p {
+     font-size: 15px;
+     font-family: BM Dohyeon;
+     font-weight: bold;
+     color: black;
+     text-decoration: none;
+     text-align: center;
+ }

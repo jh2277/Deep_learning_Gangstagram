@@ -1,6 +1,12 @@
 <!doctype html>
 <html lang="en">
-  <head>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>instargram</title>
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet"/>
+    <link href="/static/mainpage.css" rel="stylesheet">
 
     <!-- Webpage Title -->
     <title>강스타그램 메인페이지</title>
@@ -19,24 +25,128 @@
 
 
     <script>
-      // 로그아웃은 내가 가지고 있는 토큰만 쿠키에서 없애면 됩니다.
-      function logout(){
-        $.removeCookie('mytoken');
-        alert('로그아웃!')
-        window.location.href='/login'
-      }
+        function reload_index(){
+            alert({{ nickname }})
+            window.location.reload()
+        }
 
-      function walkmate(){
-        window.location.href='/walkmate'
-      }
+        // 메인 페이지 출력시 게시물들이 자동 포스팅, 가장 최신 게시물이 제일 위에 오도록
+        function get_story() {
+            $.ajax({                // get 요청이 들어갑니다 어디로? / 로!
+                type: 'GET',        // 그리고 response를 받아와서 카드를 만들어서 붙여주면 된다
+                url: '/add_post',           // 붙여주는건 temp_html = ``
+                data: {},
+                success: function (response) {
+                    let rows = response['story_list']
+                    for (let i = 0; i < rows.length; i++) {
+                        let img = rows[i]['img']
+                        let comment = rows[i]['comment']
+                        let hash = rows[i]['hash']
 
+                        let temp_html = `
+                                <div className="all-posting">
+                                    <img src="${img}" className="수정필요">
+                                        <div className="수정필요">
+                                            <p className="comment">${comment}</p>
+                                            <p className="hash">${hash}</p>
+                                        </div>
+                                </div>
+                                <div class="post-icons-wrapper">
+                                        <div class="left-wrapper">
+                                            <!-- 아이콘 크기가 달라서 부득이 하게 이렇게 만들었으나, 클래스 없이 img로 처리하는게 맞습니다! -->
+                                            <img class="post-icon" src="img/like@3x.png">
+                                            <img class="post-icon-2" src="img/comment@3x.png">
+                                            <img class="post-icon" src="img/dm@3x.png">
+                                        </div>
+                                        <div class="right-wrapper">
+                                            <img src="img/favorite@3x.png">
+                                        </div>
+                                 </div>
+                        `
+                        $('#post-body').append(temp_html)
+                    }
+                }
+            });
+        }
+        // 메인(홈) 페이지로 이동
+        function home() {
+            window.location.href = '/'
+        }
+        // 게시글 추가 페이지로 이동
+        function add_post() {
+            window.location.href = '/add_post'
+        }
+        // 산책 메이트 찾기 페이지로 이동
+        function find_walkmate() {
+            window.location.href = '/walkmate'
+        }
+        // 산책 가능 여부 페이지로 이동
+        function walk_possible() {
+            window.location.href = '/walk_possible'
+        }
+        // 펫 상품관 페이지로 이동
+        function pet_goods() {
+            window.location.href = '/shop'
+        }
+        // 마이 페이지로 이동
+        function my_page() {
+            window.location.href = '/my_page'
+        }
+
+        // 로그아웃은 내가 가지고 있는 토큰만 쿠키에서 없애면 됩니다.
+        function logout() {
+            $.removeCookie('mytoken');
+            alert('로그아웃!')
+            window.location.href = '/login'
+        }
     </script>
 
-  </head>
-  <body>
-    <!-- jinja2 방식으로 작성한 닉네임 -->
-    <h5 class="subtitle">닉네임 : {{nickname}}</h5>
-    <button class="button2" onclick="walkmate()">산책 메이트 찾기</button>
-    <button class="button is-danger" onclick="logout()">로그아웃</button>
-  </body>
+</head>
+<body>
+<div id="container">
+    <div id="top-container">
+        <img src="{{ url_for('static', filename='/image/img.png') }}" class="logo" alt="gangstagram">
+        <img src="{{ url_for('static', filename='/image/trending@3x.png') }}" onclick="add_post()" class="postadd" alt="gangstagram">
+        <button onclick="logout()">버튼</button>
+    </div>
+
+    <div class="user-container">
+        <div class="user-wrapper">
+            <img src="{{ url_for('static', filename='/image/backgu.jpg') }}" class="user-icon" alt="story_icon">
+            <p class="user-text"><strong>neworld27</strong></p>
+        </div>
+    </div>
+
+    <div class="post-container">
+        <div class="mytitle">
+            <div>
+                <div class="post-body">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="like_etc-container">
+        <img src="{{ url_for('static', filename='/image/like@3x.png') }}" class="like_etc-icon2" alt="story_icon">
+        <img src="{{ url_for('static', filename='/image/favorite@3x.png') }}" class="like_etc-icon2" alt="story_icon">
+    </div>
+
+    <div class="timeline">
+        <p class="timeline-text">6시간 전</p>
+        <div class="line">
+            <hr>
+        </div>
+    </div>
+
+    <div id="footer">
+        <img alt="home" class="footer-icon" src="{{ url_for('static', filename='/image/home@3x.png') }}" onclick="home()">
+            <img alt="search" class="footer-icon" src="{{ url_for('static', filename='/image/search@3x.png')}}" onclick="find_walkmate()">
+            <img alt="season" class="footer-icon" src="{{ url_for('static', filename='/image/season.png') }}" onclick="walk_possible()">
+            <img alt="shop" class="footer-icon" src="{{ url_for('static', filename='/image/shopping-bag.png') }}" onclick="pet_goods()">
+            <img alt="mypage" class="footer-icon" src="{{ url_for('static', filename='/image/mypage.png') }}" onclick="my_page()">
+    </div>
+
+</div>
+</body>
 </html>

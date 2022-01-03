@@ -1,0 +1,77 @@
+body{
+    width: 100%;
+    max-width: 375px;
+    margin: auto;
+
+}
+/*탑*/
+#top-container{
+    width: 90%;
+    height: 30%;
+    max-width: 375px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: auto;
+    padding-top: 10px ;
+    border-bottom: 1px solid gray;
+}
+#top-container .logo{
+    width:30%;
+    margin-bottom: 10px;
+}
+
+#top-container .postadd{
+    width:8%;
+    margin-bottom: 10px;
+}
+/*미드*/
+#Mid-container{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#title{
+    margin-top: 7px;
+    width: 90%;
+    font-weight: bold;
+    font-size: 25px;
+    border-bottom: 1px solid gray;
+}
+#title p {
+    margin-bottom: 7px;
+
+}
+#shop-container{
+    margin-top: 30px;
+    text-align: center;
+}
+#shop-container img{
+    width: 200px
+}
+#shop-container p {
+    font-size: 25px;
+}
+/*풋*/
+
+#footer{
+ background-color: whitesmoke;
+ position: fixed;
+ width: 95%;
+ max-width: 370px;
+ border-top: 1px solid lightgray;
+ bottom: 0;
+
+}
+#footer #foot_icon_wrapper
+{
+ margin: 4% 6%;
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+}
+#footer #foot_icon_wrapper img{
+ width: 20px;
+}

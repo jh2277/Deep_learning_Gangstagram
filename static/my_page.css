@@ -1,14 +1,13 @@
 body{
     box-sizing: border-box;
     width: 100%;
-    max-width : 720px;
+    max-width : 370px;
     margin: auto;
 }
 
 #container{
-    margin: auto;
-    width: 95%;
-    max-width:720px;
+    width: 100%;
+    max-width:370px;
 }
 
 /*//////헤드 부분///////*/
@@ -18,28 +17,26 @@ body{
     flex-direction: row;
     justify-content: space-between;
     text-align: center;
-
+    margin: 3% 4%;
     font-weight: bold;
-    width: 95%;
-    position: fixed;
 }
 #head-header #left-wrap {
-    font-size: 5vw;
+    font-size: 20px;
     font-weight: bold;
-
+    padding-left: 2%;
 }
 /*오른쪽 상단 메뉴 (토글,게시글)*/
 #head-header #right-wrap{
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    width: 30%;
+    width: 35%;
 }
-#head-header #right-wrap img
+#head-header img
 {
     margin: 3px 5px;
     padding-right: 20px;
-    width: 9vw;
+    width: 40px;
 }
 #togBtn span img
 {
@@ -53,7 +50,7 @@ body{
 }
 /*3자 바 이미지*/
 #togBtn label{
-    width: 10vw;
+    width: 40px;
 }
 
 /*메뉴 숨김*/
@@ -61,16 +58,15 @@ body{
     display: none;
     list-style: none;
     border: 1px solid gray;
-    margin-left: 35%;
-    margin-bottom: 0;
+    margin-left: 17%;
     padding: 0 5px;
-    width: 77%;
+    width: 85px;
 
 }
 #togBtn a{
     color: black;
     text-decoration: none;
-    font-size: 1vw;
+    font-size: 10px;
 }
 #togBtn hr{
     margin: 0;
@@ -83,45 +79,91 @@ body{
 
 
 /*/////////////////*/
-#post-top-mid
+#head-mid
 {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin-top: 18%;
+    margin-top: 3px;
     border-bottom: 1px solid gray;
 }
-
-#post-top #profile_pic img{
-    width: 20vw;
-    height: 20vw;
-    border-radius: 60%;
-    border:1px solid black;
-    margin-left: 7%;
-    margin-bottom: 0;
+#head-mid img{
+    width:20%;
+    margin-left: 4%;
 }
+
+#profile_pic{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.profile-pic {
+    max-width: 200px;
+    max-height: 200px;
+    display: block;
+}
+#file-upload{
+    display: none;
+    background-image: url("/static/image/camera@3x.png");
+}
+.file-upload input{
+    display: none;
+    background-image: url("/static/image/camera@3x.png");
+}
+
+.circle {
+    margin-left : 10%;
+    margin-right: 0;
+    border-radius: 1000px;
+    overflow: hidden;
+    width: 80px;
+    height: 80px;
+    border: 3px solid rgba(0, 0, 0,1);
+}
+
+.p-image {
+    margin-top: 20px;
+    margin-left: 144px;
+    position: absolute;
+    color: #666666;
+    transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
+}
+
+.p-image:hover {
+  transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
+}
+.upload-button {
+  font-size: 1.2em;
+}
+.input-button
+{
+    width: 100px;
+}
+
 #profile_pic p {
-    font-size: 3vw;
+    font-size: 15px;
     margin-bottom: 8%;
     font-weight: bold;
     margin-left: 8%;
 }
-#post-top #post-top-mid-right
+#head-mid #head-mid-right
 {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
-    width: 95%;
-    font-size: 4vw;
+    width: 100%;
+    font-size: 15px;
     font-weight: bold;
     padding-left: 10%;
 }
-#post-top-mid-right p {
+#head-mid-right p {
     margin-bottom: 0;
 }
-#post-top #post
+#head-mid #post
 {
     display: flex;
     flex-direction: column;
@@ -129,14 +171,14 @@ body{
     align-items: center;
 
 }
-#post-top #follower
+#head-mid #follower
 {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
-#post-top #following
+#head-mid #following
 {
     display: flex;
     flex-direction: column;
@@ -162,60 +204,42 @@ body{
     flex-direction: column;
 
 }
-#Post-header{
+#navigation{
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
-    border-bottom: 1px solid lightgray;
-
+    margin: 10px 0px;
+    padding: 0;
 }
-#first_tab {
-    width: 1vw;
-    display: block;
-    margin: auto;
-    padding: 2vw 0;
+#Post-header li{
+    list-style: none;
 }
-#Post-header #first_tab img{
-    width :40px;
+#Post-header img{
+    width :25px;
+    height: 25px;
 }
 
-#second_tab {
-    width: 1vw;
-    margin: auto;
-    display: block;
-    padding: 1vw 0;
+#photo-container {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left:1%
 }
-#Post-header #second_tab img{
-    width: 40px;
+#photo-container .grid_item {
+     width: 33%;
+    max-height: 300px;
 }
-
-
-#Post-mid #grid-container {
-    display: grid;
-    grid-template-columns: 33% 33% 33%;
-    grid-template-rows: 70% 70% 70% 70%;
-    grid-row-gap: 0;
-    grid-column-gap: 0;
-    width: 100%;
+.grid_item img{
+    width: 99%;
+    height: 99%;
 }
-.grid_item{
-    border: 1px solid gray;
-}
-#grid-container img {
-     width: 100%;
-     max-width: 100%;
-     height: auto;
-    display: block;
-}
-
 /* 풋 컨테이너 */
 
 #foot-container{
  background-color: whitesmoke;
  position: fixed;
- width: 95%;
- max-width: 720px;
+ width: 100%;
+ max-width: 370px;
  border-top: 1px solid lightgray;
  bottom: 0;
 
@@ -228,5 +252,34 @@ body{
  align-items: center;
 }
 #foot-container #foot_icon_wrapper img{
- width: 40px;
+ width: 30px;
+}
+
+.modal{
+    max-width: 370px;
+    width: 100%;
+    height: 85%;
+    border: 3px solid black;
+    background-color: white;
+    margin-top: 10%;
+    position: absolute;
+    left: 1%;
+
+}
+#modal_head{
+    width: 100%;
+    height: 5%;
+    border-bottom: 2px solid black;
+    justify-content: space-between;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+}
+
+#modal_head img{
+    width: 30%;
+}
+#modal_head a {
+    margin-right: 20px;
+
 }

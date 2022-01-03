@@ -10,102 +10,202 @@
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="/static/my_page.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <title>mypage</title>
+    <style>
 
+    </style>
     <script>
+        function add_post() {
+            window.location.href = '/add_post'
+        }
+
+        //프로필 사진 바꾸기 //
+
+        $(document).ready(function () {
+
+
+            var readURL = function (input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        $('.profile-pic').attr('src', e.target.result);
+                        console.log(e.target.result);
+                    }
+
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+
+            $("#file-upload").on('change', function () {
+                readURL(this);
+            });
+
+            $(".upload-button").on('click', function () {
+                $("#file-upload").click();
+            });
+        });
+
+        //모달창구현//
+        $(function () {
+            $(".grid_item").click(function () {
+                $(".modal").fadeIn();
+            });
+
+            $(".modal_content").click(function () {
+                $(".modal").fadeOut();
+            });
+        });
+
+        function get_my_story() {
+            $.ajax({
+                type: 'GET',
+                url: '/my_page/my_story',
+                data: {},
+                success: function (response) {
+                    let rows = response['my_story_list']
+                    for (let i = 0; i < rows.length; i++) {
+
+                        let name = rows[i]['name']
+                        let address = rows[i]['address']
+                        let size = rows[i]['size']
+
+                        let temp_html = `<tr>
+                                            <td>${name} </td>
+                                            <td>${address}</td>
+                                            <td>${size}</td>
+                                        </tr>`
+                        $('#order-box').append(temp_html)
+                    }
+                }
+            });
+        }
+
+        // 메인(홈) 페이지로 이동
+        function home() {
+            window.location.href = '/'
+        }
+        // 게시글 추가 페이지로 이동
+        function add_post() {
+            window.location.href = '/add_post'
+        }
+        // 산책 메이트 찾기 페이지로 이동
+        function find_walkmate() {
+            window.location.href = '/walkmate'
+        }
+        // 산책 가능 여부 페이지로 이동
+        function walk_possible() {
+            window.location.href = '/walk_possible'
+        }
+        // 펫 상품관 페이지로 이동
+        function pet_goods() {
+            window.location.href = '/shop'
+        }
+        // 마이 페이지로 이동
+        function my_page() {
+            window.location.href = '/my_page'
+        }
         // 로그아웃은 내가 가지고 있는 토큰만 쿠키에서 없애면 됩니다.
-        function logout(){
+        function logout() {
             $.removeCookie('mytoken');
             alert('로그아웃!')
-            window.location.href='/login'
+            window.location.href = '/login'
         }
-    </script>
 
+    </script>
 </head>
 <body>
-    <div id ="container">
-        <div id = "head-container">
-            <div id ="head-header">
-                <div id="left-wrap">
-                    <p>GANG_NAM</p>
-                </div>
-                <div id="right-wrap">
+<div id="container">
+    <div id="head-container">
+        <div id="head-header">
+            <div id="left-wrap">
+                <p>GANG_NAM</p>
+            </div>
+            <div id="right-wrap">
 
-                    <div id="togBtn">
-                        <img src="/static/image/trending@3x.png" >
-                        <input type="checkbox" class="" id="toggle">
-                        <label for ="toggle"><span><img src="/static/image/bars.png" style="width: 100%"></span></label>
-                        <ul id ="toggle_menu" class="toggle_menu">
-                            <li><a href="#" onclick="">만든 사람</a></li>
-                            <hr>
-                            <li><a href="#" onclick="logout()">Log-out</a></li>
-
+                <div id="togBtn">
+                    <img src="{{ url_for('static', filename='/image/trending@3x.png') }}" onclick="add_post()" class="postadd" alt="add_post">
+                    <input type="checkbox" class="" id="toggle">
+                    <label for="toggle"><img alt="my_page" src="{{ url_for('static', filename='/image/bars.png') }}"></label>
+                    <ul id="toggle_menu" class="toggle_menu">
+                        <li><a href="#" onclick="">만든 사람</a></li>
+                        <hr>
+                        <li><a href="#" onclick="logout()">Log-out</a></li>
                     </ul>
-                    </div>
                 </div>
-            </div>
-
-        </div>
-        <div id = "Post-container">
-                <div id ="post-top">
-                    <div id="post-top-mid">
-                        <div id = "profile_pic">
-                        <img src="/static/image/img.png"  onclick=" ">
-                            <p>사용자</p>
-                        </div>
-                        <div id ="post-top-mid-right">
-                            <div id ="post">
-                                <p>0</p>
-                                <p>게시물</p>
-                            </div>
-                            <div id ="follower">
-                                <p>0</p>
-                                <p>팔로워</p>
-                            </div>
-                            <div id ="following">
-                                <p>0</p>
-                                <p>팔로잉</p>
-                            </div>
-                    </div>
-            </div>
-                </div>
-                <div id ="Post-header">
-                    <div id ="first_tab">
-                    <img src="/static/image/photo.png" class="post_icon">
-                        </div>
-                    <div id ="second_tab">
-                    <img src="/static/image/more@3x.png" class="post_icon">
-                    </div>
-                </div>
-                <div id ="Post-mid">
-                    <div id ="grid-container">
-                        <div class="grid_item"><img src="/static/image/img.png" alt=""></div>
-                        <div class="grid_item"><img src="/static/image/img.png" alt=""></div>
-                        <div class="grid_item"><img src="/static/image/img.png" alt=""></div>
-                        <div class="grid_item"><img src="/static/image/img.png" alt=""></div>
-                        <div class="grid_item"><img src="/static/image/img.png" alt=""></div>
-                        <div class="grid_item"><img src="/static/image/img.png" alt=""></div>
-                        <div class="grid_item"><img src="/static/image/img.png" alt=""></div>
-                        <div class="grid_item"><img src="/static/image/img.png" alt=""></div>
-                        <div class="grid_item"><img src="/static/image/img.png" alt=""></div>
-                        <div class="grid_item"><img src="/static/image/img.png" alt=""></div>
-                        <div class="grid_item"><img src="/static/image/img.png" alt=""></div>
-                        <div class="grid_item"><img src="/static/image/img.png" alt=""></div>
-                        <div class="grid_item"><img src="/static/image/img.png" alt=""></div>
-                        <div class="grid_item"><img src="/static/image/img.png" alt=""></div>
-                        <div class="grid_item"><img src="/static/image/img.png" alt=""></div>
-                </div>
-
             </div>
         </div>
-        <div id="foot-container">
-            <div id ="foot_icon_wrapper">
-                <img  src="/static/image/home@3x.png">
-                <img  src="/static/image/search@3x.png">
-                <img  src="/static/image/trending@3x.png">
-                <img  src="/static/image/like@3x.png">
-                <img  src="/static/image/mypage.png">
+        <div id="head-mid">
+            <div id="profile_pic">
+                <div class="circle">
+                    <img class="profile-pic" src=" " style="width: 100%">
+                </div>
+                <div class="p-image">
+                    <i class="fa fa-camera upload-button"></i>
+                    <Label class="input-button" for="file-upload"><img src="{{ url_for('static', filename='/image/black_camer.png') }}"></Label>
+                    <input id="file-upload" type="file" accept="image/*"/>
+                </div>
+                <p id="nickname">GANG_NAM</p>
+            </div>
+            <div id="head-mid-right">
+                <div id="post">
+                    <p>0</p>
+                    <p>게시물</p>
+                </div>
+                <div id="follower">
+                    <p>0</p>
+                    <p>팔로워</p>
+                </div>
+                <div id="following">
+                    <p>0</p>
+                    <p>팔로잉</p>
+                </div>
             </div>
         </div>
     </div>
+    <div id="Post-container">
+        <div id="Post-header">
+            <ul id="navigation">
+                <li><img alt="my_page" class="post_icon" src="{{ url_for('static', filename='/image/photo.png')}}"></li>
+                <li><img alt="camera" class="post_icon" src="{{ url_for('static', filename='/image/camera@3x.png')}}">
+                </li>
+            </ul>
+        </div>
+        <div id="Post-mid">
+            <section id="photo-container">
+                <img alt="my_page" class="grid_item" src="{{ url_for('static', filename='/image/hamabe.jpeg')}}">
+                <img alt="my_page" class="grid_item" src="{{ url_for('static', filename='/image/hamabe.jpeg')}}">
+                <img alt="my_page" class="grid_item" src="{{ url_for('static', filename='/image/hamabe.jpeg')}}">
+                <img alt="my_page" class="grid_item" src="{{ url_for('static', filename='/image/hamabe.jpeg')}}">
+                <img alt="my_page" class="grid_item" src="{{ url_for('static', filename='/image/hamabe.jpeg')}}">
+                <img alt="my_page" class="grid_item" src="{{ url_for('static', filename='/image/hamabe.jpeg')}}">
+                <img alt="my_page" class="grid_item" src="{{ url_for('static', filename='/image/hamabe.jpeg')}}">
+                <img alt="my_page" class="grid_item" src="{{ url_for('static', filename='/image/hamabe.jpeg')}}">
+                <img alt="my_page" class="grid_item" src="{{ url_for('static', filename='/image/hamabe.jpeg')}}">
+                <img alt="my_page" class="grid_item" src="{{ url_for('static', filename='/image/hamabe.jpeg')}}">
+            </section>
+        </div>
+    </div>
+    <div id="foot-container">
+        <div id="foot_icon_wrapper">
+            <img alt="home" class="footer-icon" src="{{ url_for('static', filename='/image/home@3x.png') }}" onclick="home()">
+            <img alt="search" class="footer-icon" src="{{ url_for('static', filename='/image/search@3x.png')}}" onclick="find_walkmate()">
+            <img alt="season" class="footer-icon" src="{{ url_for('static', filename='/image/season.png') }}" onclick="walk_possible()">
+            <img alt="shop" class="footer-icon" src="{{ url_for('static', filename='/image/shopping-bag.png') }}" onclick="pet_goods()">
+            <img alt="mypage" class="footer-icon" src="{{ url_for('static', filename='/image/mypage.png') }}" onclick="my_page()">
+        </div>
+    </div>
+    <div class="modal">
+        <div class="modal_content">
+            <div id="modal_head">
+                <img alt="my_page" src="{{ url_for('static', filename='/image/img.png')}}">
+                <a>X</a>
+            </div>
+            <div id="modal_main">
+                <img alt="my_page" src="{{ url_for('static', filename='/image/img.png')}}">
+            </div>
+        </div>
+    </div>
+</div>
 </body>

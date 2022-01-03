@@ -70,13 +70,26 @@ def register_post():
     nickname_receive = request.form['nickname_give']
     address_receive = request.form['address_give']
     owner_gender_receive = request.form['owner_gender_give']
-    # title_receive = request.form['title_give']
-    # file = request.files['file_give']
-    # hash_receive = request.form['hash_give']
+    file_receive = request.files['file_give']
+    introduce_comment_receive = request.form['introduce_comment_give']
     dog_breed_receive = request.form['dog_breed_give']
     dog_size_receive = request.form['dog_size_give']
 
+    # 비밀번호를 sha256 방법으로 단방향 암호화
     pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
+
+    ### 이미지 파일 저장 부분 ###
+    # 해당 파일에서 확장자명만 추출
+    extension = file_receive.filename.split('.')[-1]
+    # 파일 이름이 중복되면 안되므로, 지금 시간을 해당 파일 이름으로 만들어서 중복이 되지 않게 함!
+    today = datetime.datetime.now()
+    my_time = today.strftime('%Y-%m-%d-%H-%M-%S')
+    filename = f'{my_time}'
+    # 파일 저장 경로 설정 (파일은 db가 아니라, 서버 컴퓨터 자체에 저장됨)
+    save_to = f'static/profile/{filename}.{extension}'
+    # 파일 저장!
+    file_receive.save(save_to)
+    ### 이미지 파일 저장 부분 ###
 
     doc = {
         'email': email_receive,
@@ -84,13 +97,15 @@ def register_post():
         'nickname': nickname_receive,
         'address': address_receive,
         'owner_gender': owner_gender_receive,
-        # 이 부분에 이미지 저장 부분 추가.
+        'profile_img': f'{filename}.{extension}',
+        'introduce_comment': introduce_comment_receive,
         'dog_breed': dog_breed_receive,
-        'dog_size': dog_size_receive
+        'dog_size': dog_size_receive,
     }
 
     db.members.insert_one(doc)
-
+    # db.members.update({'nickname': nickname_receive}, {'$set': {'temp':temp_receive}}, upsert=True)
+    # db.members.update({'nickname': "남집사"}, {'$push': {'temp': temp_receive}})
     return jsonify({'result': 'success'})
 
 
@@ -157,7 +172,7 @@ def api_valid():
 # 산책 여부 페이지 출력(날씨 정보 포함한 페이지)
 @app.route('/walk_possible', methods=['GET'])
 def walk_possible():
-    return render_template('walking_possibility.html')
+    return render_template('walking_possibility_yes.html')
 
 # 산책 메이트 찾기 페이지 출력
 @app.route('/walkmate', methods=["GET"])
@@ -167,7 +182,12 @@ def walkmate():
 # 스토리 게시글 추가 페이지 출력
 @app.route('/add_post', methods=["GET"])
 def story_post():
-    return render_template("add_post.html")
+    token_receive = request.cookies.get('mytoken')
+    # 암호화되어있는 token의 값을 우리가 사용할 수 있도록 디코딩(암호화 풀기)해줍니다!
+    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+    # email로 db에서 유저를 찾아 user_info 변수에 저장해줍니다.
+    user_info = db.members.find_one({"email": payload['email']})
+    return render_template("add_post.html", nickname=user_info["nickname"])
 
 # 샵 페이지 출력
 @app.route('/shop', methods=["GET"])
@@ -177,7 +197,10 @@ def shop():
 # 마이 페이지 출력
 @app.route('/my_page', methods=["GET"])
 def my_page():
-    return render_template("mypage.html")
+    token_receive = request.cookies.get('mytoken')
+    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+    token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+    return render_template("mypage.html", mytoken=token)
 
 
 ############################
@@ -215,8 +238,6 @@ def select_walkmate_conditions():
     return jsonify({'result': 'success'})
     ### 새로운 해결방안 부분 ###
 
-
-    # print(searched_members)
 
     # searched_members가 비어있지 않다면 즉, 발견했다면(0이 아닌 숫자는 True이므로)
     # if searched_members:
@@ -256,21 +277,6 @@ def find_list():
     return jsonify({'searched_members': searched_members})
 ### 새로운 해결방안 부분 ###
 
-############################
-# walkmate_list.html / 산책 메이트 목록 출력 페이지 API #
-############################
-# @app.route('/walkmate/list')
-# def move_walkmate_list():
-    ### 새로운 해결방안 부분 ###
-#    return render_template('walkmate_list.html')
-    ### 새로운 해결방안 부분 ###
-
-
-    # found_members = request.args.get('found_members')
-    # print(type(found_members))
-    # print('move_walkmate_list : ' + found_members)
-    # return render_template('walkmate_list.html', found_members=found_members)
-
 
 ############################
 # add_post.html / 스토리 게시글 추가 API #
@@ -278,28 +284,47 @@ def find_list():
 # 스토리 게시글 추가
 @app.route('/add_post/add_story', methods=["POST"])
 def story_add_post():
-    # 스토리 내용 받기(사진) / 해쉬태그 내용 받기(타이핑)
-    story_received = request.form['story_received']
-    hash_received = request.form['hash_received']
+    token_receive = request.cookies.get('mytoken')
+    # 암호화되어있는 token의 값을 우리가 사용할 수 있도록 디코딩(암호화 풀기)해줍니다!
+    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+    # email로 db에서 유저를 찾아 user_info 변수에 저장해줍니다.
+    user_info = db.members.find_one({"email": payload['email']})
 
-    story_list = list(db.my_story.find({}, {'_id': False}))
-    count = len(story_list) + 1
+    nickname = user_info['nickname']
+    file = request.files['file_give']
+    comment_receive = request.form['comment_give']
+    hash_receive = request.form['hash_give']
 
-    # 내가 올린 게시글 dictionary 만들기
+    # 해당 파일에서 확장자명만 추출
+    extension = file.filename.split('.')[-1]
+    # 파일 이름이 중복되면 안되므로, 지금 시간을 해당 파일 이름으로 만들어서 중복이 되지 않게 함!
+    today = datetime.datetime.now()
+    my_time = today.strftime('%Y-%m-%d-%H-%M-%S')
+    filename = f'{comment_receive[:2]}- {my_time}'
+    # 파일 저장 경로 설정 (파일은 db가 아니라, 서버 컴퓨터 자체에 저장됨)
+    save_to = f'static/story/{filename}.{extension}'
+    # 파일 저장!
+    file.save(save_to)
+
+    # 아래와 같이 입하면 db에 추가 가능!
     doc = {
-        'num': count,
-        'story': story_received,
-        'hash': hash_received
+        'my_time': my_time,
+        'nickname': nickname,
+        'img': f'{filename}.{extension}',
+        'comment': comment_receive,
+        'hash': hash_receive
     }
-    db.my_story.insert_one(doc)
+    db.all_story.insert_one(doc)
 
     return jsonify({'msg': '작성 완료'})
 
-# 스토리 게시물 추가 후 메인 페이지에서 자동 출력되게 + 게시글 불러오기 + 마이페이지에 게시글 내용 추가
-@app.route('/add_post/add', methods=["GET"])
+# 게시글 불러오기
+@app.route('/add_post', methods=["GET"])
 def story_get():
-    story_list = list(db.my_story.find({}, {'_id': False}))
-    return jsonify({'orders': story_list}), render_template("index.html")
+    story_list = list(db.all_story.find({}, {'_id': False}))
+    # 리스트를 역순으로 배열해, 출력시 가장 최근 게시물이 가장 앞에 오게끔 한다.
+    story_list = sorted(story_list, reverse=True)
+    return jsonify({'orders': story_list})
 
 
 ############################
@@ -308,9 +333,9 @@ def story_get():
 # 마이 페이지에서 내 전체 게시물 보기
 @app.route('/my_page/my_story', methods=["GET"])
 def my_story():
-    story_list = list(db.my_story.find({}, {'_id': False}))
-    return jsonify({'orders': story_list})
-
+    my_story_list = list(db.all_story.find({}, {'denote': 0}, {'_id': False}))
+    my_story_list = sorted(my_story_list, reverse=True)
+    return jsonify({'my_story_list': my_story_list})
 
 # __name__은 모듈의 이름이 저장되는 변수이며 import로 모듈을 가져왔을 때 모듈의 이름이 들어감.
 # 그런데 파이썬 인터프리터로 스크립트 파일을 직접 실행했을 때는 모듈의 이름이 아닌 __main__ 이 들어감.

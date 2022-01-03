@@ -1,10 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>스토리 게시글 추가 페이지</title>
-</head>
-<body>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <title>스토리 게시글 추가 페이지</title>
 
+  <script>
+  function posting() {
+    let nickname = '{{ nickname }}';
+    let file = $('#file')[0].files[0]
+    let comment = $('#comment').val()
+    let hash = $('#hash').val()
+    let form_data = new FormData()
+
+
+    form_data.append("nickname", nickname)
+    form_data.append("file_give", file)
+    form_data.append("comment_give", comment)
+    form_data.append("hash_give", hash)
+
+    $.ajax({
+        type: "POST",
+        url: "/add_post/add_story",
+        data: form_data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (response) {
+            alert(response["msg"])
+            window.location.href = '/'
+        }
+    });
+  }
+</script>
+</head>
+
+<body>
+  <div class="file-upload">
+    <input type="file" id="file">
+    <input style="width:300px;" type="text" id="comment" placeholder="코멘트를 남겨주세요">
+    <input style="width:300px;" type="text" id="hash" placeholder="관련 해시태그를 달아주세요">
+    <button onclick="posting()">업로드</button>
+  </div>
 </body>
 </html>

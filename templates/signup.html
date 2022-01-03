@@ -26,24 +26,39 @@
         // 회원가입 함수입니다.
         // 닉네임, 이메일 id, 비밀번호, (견주)성별, 주소, 견종, 견크기를 받아 DB에 저장합니다.
         function register() {
+            // 이메일 id, pw, 닉네임 저장
+            let email = $('#useremail').val()
+            let pw = $('#userpw').val()
+            let nickname = $('#usernick').val()
+            // 주소 저장 / 셀렉트 박스의 선택한 항목의 주소 text 값을 변수에 저장
+            let address = $("[name=address_selectbox] option:selected").text()
+            // 견주 성별 저장 / 라디오 버튼의 value값을 ajax로 넘길때 문법!
+            let owner_gender = $('input[name="usergender"]:checked').val()
+            // 프로필 사진, 코멘트 저장
+            let file = $('#file')[0].files[0]
+            let introduce_comment = $('#introduce_comment').val()
+            // 견종, 견 크기 저장
+            let dog_breed = $('#userdogbreed').val()
+            let dog_size = $('input[name="userdogsize"]:checked').val()
+
+            let form_data = new FormData()
+            form_data.append('email_give', email)
+            form_data.append('pw_give', pw)
+            form_data.append('nickname_give', nickname)
+            form_data.append('address_give', address)
+            form_data.append('owner_gender_give', owner_gender)
+            form_data.append('file_give', file)
+            form_data.append('introduce_comment_give', introduce_comment)
+            form_data.append('dog_breed_give', dog_breed)
+            form_data.append('dog_size_give', dog_size)
+
             $.ajax({
                 type: "POST",
                 url: "/sign_up/request",
-                data: {
-                    email_give: $('#useremail').val(),
-                    pw_give: $('#userpw').val(),
-                    nickname_give: $('#usernick').val(),
-                    // 셀렉트 박스의 선택한 항목의 주소 text 값을 변수에 저장
-                    address_give: $("[name=address_selectbox] option:selected").text(),
-                    /* 라디오 버튼의 value값을 ajax로 넘길때 문법! */
-                    owner_gender_give: $('input[name="usergender"]:checked').val(),
-                    /* 사진, 사진 제목, 해쉬태그 저장 */
-                    // title_give: $('#title').val(),
-                    // file_give: $('#file')[0].files[0],
-                    // hash_give: $('#hash').val(),
-                    dog_breed_give: $('#userdogbreed').val(),
-                    dog_size_give: $('input[name="userdogsize"]:checked').val()
-                },
+                data: form_data,
+                cache: false,
+                contentType: false,
+                processData: false,
                 success: function (response) {
                     if (response['result'] == 'success') {
                         alert('회원가입이 완료되었습니다.')
@@ -70,7 +85,6 @@
                 headers: {'Authorization' : 'KakaoAK 78ddf5d3a4b12f25ac9f70830d0cab48'},
                 success:function(data){
                     // 셀렉트 박스 초기화
-                    // $('#address_selectbox').empty()
                     $("#address_selectbox").html("<option value='0' selected disabled>상세 주소 선택</option>");
 
                     // 검색된 데이터가 있다면 해당 데이터들을 셀렉트 박스의 옵션으로 추가
@@ -151,10 +165,10 @@
     </div>
     </br>
 
+    <!-- 프로필 사진, 간단 코멘트 작성 부분 -->
     <div class="file-upload">
-        <input style="width:300px;" type="text" id="title" placeholder="업로드할 이미지 제목을 입력해주세요">
         <input type="file" id="file">
-        <input style="width:300px;" type="text" id="hash" placeholder="관련 해시태그를 달아주세요">
+        <input style="width:300px;" type="text" id="introduce_comment" placeholder="간단히 자기소개를 해주세요.">
     </div>
 
     </br>

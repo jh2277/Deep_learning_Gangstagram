@@ -1,0 +1,71 @@
+#container{
+    margin: 0 auto;
+    max-width: 375px;
+}
+
+#top{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position:fixed;
+    top:0;
+    width: 100%;
+    max-width: 375px;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    border-bottom: 2px solid lightgray;
+    background-color: white;
+}
+#top .logo{
+    width: 30%;
+    padding-top: 1%;
+    padding-left: 2%;
+}
+#top .postadd{
+    margin-right: 5%;
+    width: 6%;
+}
+
+#Post-box{
+    width: 80%;
+    margin: 3% auto auto;
+}
+
+#titleup{
+    width:100%;
+    max-width: 375px;
+    text-align: left;
+    margin-top: 30%;
+}
+
+#upload-container{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+}
+
+#foot{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: row;
+}
+#footer{
+    background-color: whitesmoke;
+    position: fixed;
+    width: 100%;
+    max-width: 375px;
+    padding-top: 5%;
+    padding-bottom: 5%;
+    border: 1px solid lightgray;
+    bottom: 0;
+
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+#footer .footer-icon{
+    width: 8%;
+
+}

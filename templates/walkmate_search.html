@@ -89,6 +89,31 @@
                 }
             })
         }
+
+        // 메인(홈) 페이지로 이동
+        function home() {
+            window.location.href = '/'
+        }
+        // 게시글 추가 페이지로 이동
+        function add_post() {
+            window.location.href = '/add_post'
+        }
+        // 산책 메이트 찾기 페이지로 이동
+        function find_walkmate() {
+            window.location.href = '/walkmate'
+        }
+        // 산책 가능 여부 페이지로 이동
+        function walk_possible() {
+            window.location.href = '/walk_possible'
+        }
+        // 펫 상품관 페이지로 이동
+        function pet_goods() {
+            window.location.href = '/shop'
+        }
+        // 마이 페이지로 이동
+        function my_page() {
+            window.location.href = '/my_page'
+        }
     </script>
 
 </head>
@@ -97,7 +122,7 @@
 <div id="around">
     <div id="top-container">
         <img src="{{ url_for('static', filename='/image/img.png') }}" class="logo" alt="gangstagram">
-        <img src="{{ url_for('static', filename='/image/trending@3x.png') }}" class="postadd" alt="gangstagram">
+        <img src="{{ url_for('static', filename='/image/trending@3x.png') }}" onclick="add_post()" class="postadd" alt="gangstagram">
     </div>
 
 
@@ -174,11 +199,11 @@
 
     <div id="foot">
         <div id="footer">
-            <img alt="home" class="footer-icon" src="{{ url_for('static', filename='/image/home@3x.png') }}">
-            <img alt="search" class="footer-icon" src="{{ url_for('static', filename='/image/search@3x.png')}}">
-            <img alt="season" class="footer-icon" src="{{ url_for('static', filename='/image/season.png') }}">
-            <img alt="shop" class="footer-icon" src="{{ url_for('static', filename='/image/shopping-bag.png') }}">
-            <img alt="mypage" class="footer-icon" src="{{ url_for('static', filename='/image/mypage.png') }}">
+            <img alt="home" class="footer-icon" src="{{ url_for('static', filename='/image/home@3x.png') }}" onclick="home()">
+            <img alt="search" class="footer-icon" src="{{ url_for('static', filename='/image/search@3x.png')}}" onclick="find_walkmate()">
+            <img alt="season" class="footer-icon" src="{{ url_for('static', filename='/image/season.png') }}" onclick="walk_possible()">
+            <img alt="shop" class="footer-icon" src="{{ url_for('static', filename='/image/shopping-bag.png') }}" onclick="pet_goods()">
+            <img alt="mypage" class="footer-icon" src="{{ url_for('static', filename='/image/mypage.png') }}" onclick="my_page()">
         </div>
     </div>
 </div>
