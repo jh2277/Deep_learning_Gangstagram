@@ -29,18 +29,25 @@
                 }
             })
         })
-        //현재 미세먼지 임시로  //
+
+        // 현재 미세먼지 임시로  //
         $(document).ready(function () {
+
             $.ajax({
                 type: "GET",
                 url: "http://spartacodingclub.shop/sparta_api/seoulair",
                 data: {},
                 success: function (response) {
+
                     let rows = response['RealtimeCityAir']['row']
                     for(let i=0; i<rows.length; i++){
                         let mise = rows[i]['IDEX_MVL']
                         let gu = rows[i]['MSRSTE_NM']
-                        console.log(mise,gu)
+
+                        if(gu === "성북구") {
+                            $('#city').text(gu)
+                            $('#mise').text(mise)
+                        }
                     }
                 }
             })
@@ -55,6 +62,7 @@
                 print("산책하러 가요!")
             }
         }
+
 
     </script>
 </head>
@@ -76,12 +84,13 @@
     </div>
     <div id="bottom">
         <div id="current_temp">
-            <p>현재 기온 : <span id="temp"> -10</span>도</p>
+            <p>현재 기온 : <span id="temp">0.00</span>도</p>
         </div>
         <div id="current_mise">
-            <p>현재 미세먼지 : <span id="city">강남구</span> <span id="mise">30</span></p>
+            <p> <span id="city"></span> 미세먼지 : <span id="mise"></span></p>
         </div>
     </div>
+
 </div>
 </body>
 </html>

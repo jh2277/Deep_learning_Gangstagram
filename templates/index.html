@@ -7,7 +7,11 @@
     <title>instargram</title>
     <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet"/>
     <link href="/static/mainpage.css" rel="stylesheet">
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
     <!-- Webpage Title -->
     <title>강스타그램 메인페이지</title>
 
@@ -52,56 +56,88 @@
                         let my_time = rows[i]['my_time']
 
                         let temp_html = `
-                                        <div class="user-container">
-                                            <div class="user-wrapper">
-                                                <img src="/static/profile/${img}" class="user-icon" alt="story_icon">
-                                                <p class="user-text"><strong>${nickname}</strong></p>
-                                            </div>
-                                        </div>
-                                        <div class="post-container">
-                                            <div class="mytitle">
-                                                <img src="/static/story/${img}" class="post_image">
-                                                <div class="comment_hash_wrap">
-                                                    <p class="comment">${comment}</p>
-                                                    <p class="hash">${hash}</p>
+                                                <div class="user-container">
+                                                    <div class="user-wrapper">
+                                                        <img src="/static/profile/${img}" class="user-icon" alt="story_icon">
+                                                        <p class="user-text"><strong>${nickname}</strong></p>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="like_etc-container">
-                                            <img src="/static/image/like@3x.png" class="like_etc-icon2" alt="story_icon">
-                                            <img src="/static/image/favorite@3x.png" class="like_etc-icon2"
-                                        </div>
-                                        <div class="timeline">
-                                            <p class="timeline-text">포스팅 시간 : ${my_time}</p>
-                                            <div class="line">
-                                                <hr>
-                                            </div>
-                                        </div>`
+
+                                                <div class="mytitle">
+                                                    <div>
+                                                        <img src="/static/story/${img}" class="post_image">
+                                                        <div class="comment_hash_wrap">
+                                                            <p class="comment">${comment}</p>
+                                                            <p class="hash">${hash}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="like_etc-container">
+                                                    <div class="like-wrapper">
+                                                        <img src="/static/image/like@3x.png" class="like_etc-icon" alt="story_icon">
+                                                        <img src="/static/image/comment@3x.png" class="like_etc-icon" alt="story_icon">
+                                                        <img src="/static/image/dm@3x.png" class="like_etc-icon" alt="story_icon">
+                                                    </div>
+                                                    <img src="/static/image/favorite@3x.png" class="like_etc-icon2" alt="story_icon">
+                                                </div>
+
+                                                <div class="like-howmany-container">
+                                                    <div class="like_howmany-wrapper">
+                                                        <img src="/static/profile/${img}" class="howmany-icon" alt="story_icon">
+                                                        <p class="howmany-text"><strong>${nickname}외 6222명이 좋아합니다.</strong></p>
+                                                    </div>
+                                                </div>
+
+                                                <div class="comment-container">
+                                                    <div class="comment-wrapper">
+                                                        <p><strong>neworld27</strong></p>
+                                                        <p class="howmany-text">안녕하세요 반갑습니다.</p>
+                                                    </div>
+                                                    <div class="comment-wrapper">
+                                                        <p><strong>nosleep</strong></p>
+                                                        <p class="howmany-text">넹 안녕하세요</p>
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <div class="timeline">
+                                                    <p class="timeline-text">포스팅 시간 : ${my_time}</p>
+                                                    <div class="line">
+                                                        <hr>
+                                                    </div>
+                                                </div>
+
+                                              `
                         $('.lemon').append(temp_html) //게시물 올리는 곳 있는데
                     }
                 }
             });
         }
+
         // 메인(홈) 페이지로 이동
         function home() {
             window.location.href = '/'
         }
+
         // 게시글 추가 페이지로 이동
         function add_post() {
             window.location.href = '/add_post'
         }
+
         // 산책 메이트 찾기 페이지로 이동
         function find_walkmate() {
             window.location.href = '/walkmate'
         }
+
         // 산책 가능 여부 페이지로 이동
         function walk_possible() {
             window.location.href = '/walk_possible'
         }
+
         // 펫 상품관 페이지로 이동
         function pet_goods() {
             window.location.href = '/shop'
         }
+
         // 마이 페이지로 이동
         function my_page() {
             window.location.href = '/my_page'
@@ -112,25 +148,33 @@
 <body>
 <div id="container">
     <div id="top-container">
-        <img src="{{ url_for('static', filename='/image/img.png') }}" class="logo" alt="gangstagram">
-        <img src="{{ url_for('static', filename='/image/trending@3x.png') }}" onclick="add_post()" class="postadd" alt="gangstagram">
-        <button onclick="logout()">로그아웃</button>
+        <img src="/static/image/img.png" class="logo" alt="gangstagram">
+        <img src="/static/image/trending@3x.png" onclick="add_post()" class="postadd"
+             alt="gangstagram">
+        <button onclick="logout()" class="btn btn-outline-dark btn-sm" type="submit">로그아웃</button>
     </div>
 
 
-     <!-- 묶기 위함 -->
+    <!-- 묶기 위함 -->
     <div class="lemon">
 
+
     </div>
+
 
 
     <div id="foot">
         <div id="footer">
-            <img alt="home" class="footer-icon" src="{{ url_for('static', filename='/image/home@3x.png') }}" onclick="home()">
-            <img alt="search" class="footer-icon" src="{{ url_for('static', filename='/image/search@3x.png')}}" onclick="find_walkmate()">
-            <img alt="season" class="footer-icon" src="{{ url_for('static', filename='/image/season.png') }}" onclick="walk_possible()">
-            <img alt="shop" class="footer-icon" src="{{ url_for('static', filename='/image/shopping-bag.png') }}" onclick="pet_goods()">
-            <img alt="mypage" class="footer-icon" src="{{ url_for('static', filename='/image/mypage.png') }}" onclick="my_page()">
+            <img alt="home" class="footer-icon" src="{{ url_for('static', filename='/image/home@3x.png') }}"
+                 onclick="home()">
+            <img alt="search" class="footer-icon" src="{{ url_for('static', filename='/image/search@3x.png') }}"
+                 onclick="find_walkmate()">
+            <img alt="season" class="footer-icon" src="{{ url_for('static', filename='/image/season.png') }}"
+                 onclick="walk_possible()">
+            <img alt="shop" class="footer-icon" src="{{ url_for('static', filename='/image/shopping-bag.png') }}"
+                 onclick="pet_goods()">
+            <img alt="mypage" class="footer-icon" src="{{ url_for('static', filename='/image/mypage.png') }}"
+                 onclick="my_page()">
         </div>
     </div>
 
