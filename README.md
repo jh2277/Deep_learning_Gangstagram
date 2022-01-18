@@ -2,7 +2,8 @@
 
 https://www.figma.com/file/3sjGIJvfkcXGS32uAAYmVm/Untitled?node-id=1%3A3551 
 
-0. KPT 회고록
+**0. KPT 회고록**
+
 ![제목 없음](https://user-images.githubusercontent.com/96563287/149945178-fafc670b-f535-42ec-8940-8ac31bb26742.png)
 
 
@@ -10,7 +11,7 @@ https://www.figma.com/file/3sjGIJvfkcXGS32uAAYmVm/Untitled?node-id=1%3A3551
 
 
 
-1. 프로젝트 제목 : 강스타그램 with Deeplearning
+**1. 프로젝트 제목 : 강스타그램 with Deeplearning**
 
   = 강아지 집사들을 위한 SNS(모바일전용)
 
@@ -33,7 +34,7 @@ https://www.figma.com/file/3sjGIJvfkcXGS32uAAYmVm/Untitled?node-id=1%3A3551
 
 
 
-2. 와이어 프레임
+**2. 와이어 프레임**
 
 
 ![2](https://user-images.githubusercontent.com/96563287/149945442-7a8e4936-dc50-478f-b705-cc2469a0df3d.png)
@@ -50,16 +51,20 @@ https://www.figma.com/file/3sjGIJvfkcXGS32uAAYmVm/Untitled?node-id=1%3A3551
 
  
 
-3. DB구조 (API 설계)
+**3. DB구조 (API 설계)**
+
+
+ 
+![334](https://user-images.githubusercontent.com/96563287/149945929-0e414a16-08e2-489e-a5f7-c73a7a627962.JPG)
+
+
 
 
  
 
-
- 
-
-4.  프로젝트일정
+**4.  프로젝트일정**
 
 
+![12313](https://user-images.githubusercontent.com/96563287/149945940-bf462c4c-c9af-47d2-95b7-0d6edcb58574.JPG)
 
 
