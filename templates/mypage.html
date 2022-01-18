@@ -77,11 +77,11 @@
                                                     </div>
                                                     <div id="right-wrap">
                                                         <div id="togBtn">
-                                                            <img src="/static/image/trending@3x.png" onclick="add_post()"
+                                                            <img src="/static/image/icon/trending@3x.png" onclick="add_post()"
                                                                  class="postadd" alt="add_post">
                                                             <input type="checkbox" class="" id="toggle">
                                                             <label for="toggle"><img alt="my_page"
-                                                                                     src="/static/image/bars.png"></label>
+                                                                                     src="/static/image/icon/bars.png"></label>
                                                             <ul id="toggle_menu" class="toggle_menu">
                                                                 <li><a href="#" onclick="">만든 사람</a></li>
                                                                 <hr>
@@ -93,12 +93,12 @@
                                                 <div id="head-mid">
                                                     <div id="profile_pic">
                                                         <div class="circle">
-                                                            <img src="/static/profile/${profile_img}" class="profile-pic" style="width: 100%">
+                                                            <img src="/static/image/profile/${profile_img}" class="profile-pic" style="width: 100%">
                                                         </div>
                                                         <div class="p-image">
                                                             <i class="fa fa-camera upload-button"></i>
                                                             <Label class="input-button" for="file-upload"><img
-                                                                    src="/static/image/black_camer.png"></Label>
+                                                                    src="/static/image/icon/black_camer.png"></Label>
                                                             <input id="file-upload" type="file" accept="image/*"/>
                                                         </div>
                                                     </div>
@@ -137,7 +137,7 @@
                     for (let i = 0; i < rows.length; i++) {
                         let img = rows[i]['img']
                         let temp_html = `
-                                          <img alt="my_page" class="grid_item" src="/static/story/${img}" >
+                                          <img alt="my_page" class="grid_item" src="/static/image/story/${img}" >
                                         `
                         $('#photo-container').append(temp_html) //게시물 올리는 곳 있는데
                     }
@@ -167,9 +167,9 @@
     <div id="Post-container">
         <div id="Post-header">
             <ul id="navigation">
-                <li><img alt="my_page" class="post_icon" src="{{ url_for('static', filename='/image/photo.png') }}">
+                <li><img alt="my_page" class="post_icon" src="{{ url_for('static', filename='/image/icon/photo.png') }}">
                 </li>
-                <li><img alt="camera" class="post_icon" src="{{ url_for('static', filename='/image/camera@3x.png') }}">
+                <li><img alt="camera" class="post_icon" src="{{ url_for('static', filename='/image/icon/camera@3x.png') }}">
                 </li>
             </ul>
         </div>
@@ -183,27 +183,27 @@
 
     <div id="foot-container">
         <div id="foot_icon_wrapper">
-            <img alt="home" class="footer-icon" src="{{ url_for('static', filename='/image/home@3x.png') }}"
+            <img alt="home" class="footer-icon" src="{{ url_for('static', filename='/image/icon/home@3x.png') }}"
                  onclick="home()">
-            <img alt="search" class="footer-icon" src="{{ url_for('static', filename='/image/search@3x.png') }}"
+            <img alt="search" class="footer-icon" src="{{ url_for('static', filename='/image/icon/search@3x.png') }}"
                  onclick="find_walkmate()">
-            <img alt="season" class="footer-icon" src="{{ url_for('static', filename='/image/season.png') }}"
+            <img alt="season" class="footer-icon" src="{{ url_for('static', filename='/image/icon/season.png') }}"
                  onclick="walk_possible()">
             <img alt="shop" class="footer-icon"
-                 src="{{ url_for('static', filename='/image/shopping-bag.png') }}"
+                 src="{{ url_for('static', filename='/image/icon/shopping-bag.png') }}"
                  onclick="pet_goods()">
-            <img alt="mypage" class="footer-icon" src="{{ url_for('static', filename='/image/mypage.png') }}"
+            <img alt="mypage" class="footer-icon" src="{{ url_for('static', filename='/image/icon/mypage.png') }}"
                  onclick="my_page()">
         </div>
     </div>
     <div class="modal">
         <div class="modal_content">
             <div id="modal_head">
-                <img alt="my_page" src="{{ url_for('static', filename='/image/img.png') }}">
+                <img alt="my_page" src="{{ url_for('static', filename='/image/icon/img.png') }}">
                 <a>X</a>
             </div>
             <div id="modal_main">
-                <img alt="my_page" src="{{ url_for('static', filename='/image/img.png') }}">
+                <img alt="my_page" src="{{ url_for('static', filename='/image/icon/img.png') }}">
             </div>
         </div>
     </div>

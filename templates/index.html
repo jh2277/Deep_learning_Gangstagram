@@ -63,14 +63,14 @@
                         let temp_html = `
                                                 <div class="user-container">
                                                     <div class="user-wrapper">
-                                                        <img src="/static/profile/${profile_img}" class="user-icon" alt="story_icon">
+                                                        <img src="/static/image/profile/${profile_img}" class="user-icon" alt="story_icon">
                                                         <p class="user-text"><strong>${nickname}</strong></p>
                                                     </div>
                                                 </div>
 
                                                 <div class="mytitle">
                                                     <div>
-                                                        <img src="/static/story/${img}" class="post_image">
+                                                        <img src="/static/image/story/${img}" class="post_image">
                                                         <div class="comment_hash_wrap">
                                                             <p class="comment">${comment}</p>
                                                             <p class="hash">${hash}</p>
@@ -79,16 +79,16 @@
                                                 </div>
                                                 <div class="like_etc-container">
                                                     <div class="like-wrapper">
-                                                        <img src="/static/image/like@3x.png" class="like_etc-icon" alt="story_icon">
-                                                        <img src="/static/image/comment@3x.png" class="like_etc-icon" alt="story_icon">
-                                                        <img src="/static/image/dm@3x.png" class="like_etc-icon" alt="story_icon">
+                                                        <img src="/static/image/icon/like@3x.png" class="like_etc-icon" alt="story_icon">
+                                                        <img src="/static/image/icon/comment@3x.png" class="like_etc-icon" alt="story_icon">
+                                                        <img src="/static/image/icon/dm@3x.png" class="like_etc-icon" alt="story_icon">
                                                     </div>
-                                                    <img src="/static/image/favorite@3x.png" class="like_etc-icon2" alt="story_icon">
+                                                    <img src="/static/image/icon/favorite@3x.png" class="like_etc-icon2" alt="story_icon">
                                                 </div>
 
                                                 <div class="like-howmany-container">
                                                     <div class="like_howmany-wrapper">
-                                                        <img src="/static/profile/${profile_img}" class="howmany-icon" alt="story_icon">
+                                                        <img src="/static/image/profile/${profile_img}" class="howmany-icon" alt="story_icon">
                                                         <p class="howmany-text"><strong>${nickname}외 6222명이 좋아합니다.</strong></p>
                                                     </div>
                                                 </div>
@@ -153,8 +153,8 @@
 <body>
 <div id="container">
     <div id="top-container">
-        <img src="/static/image/img.png" class="logo" alt="gangstagram">
-        <img src="/static/image/trending@3x.png" onclick="add_post()" class="postadd"
+        <img src="/static/image/icon/img.png" class="logo" alt="gangstagram">
+        <img src="/static/image/icon/trending@3x.png" onclick="add_post()" class="postadd"
              alt="gangstagram">
         <button onclick="logout()" class="btn btn-outline-dark btn-sm" type="submit">로그아웃</button>
     </div>
@@ -170,15 +170,15 @@
 
     <div id="foot">
         <div id="footer">
-            <img alt="home" class="footer-icon" src="{{ url_for('static', filename='/image/home@3x.png') }}"
+            <img alt="home" class="footer-icon" src="{{ url_for('static', filename='/image/icon/home@3x.png') }}"
                  onclick="home()">
-            <img alt="search" class="footer-icon" src="{{ url_for('static', filename='/image/search@3x.png') }}"
+            <img alt="search" class="footer-icon" src="{{ url_for('static', filename='/image/icon/search@3x.png') }}"
                  onclick="find_walkmate()">
-            <img alt="season" class="footer-icon" src="{{ url_for('static', filename='/image/season.png') }}"
+            <img alt="season" class="footer-icon" src="{{ url_for('static', filename='/image/icon/season.png') }}"
                  onclick="walk_possible()">
-            <img alt="shop" class="footer-icon" src="{{ url_for('static', filename='/image/shopping-bag.png') }}"
+            <img alt="shop" class="footer-icon" src="{{ url_for('static', filename='/image/icon/shopping-bag.png') }}"
                  onclick="pet_goods()">
-            <img alt="mypage" class="footer-icon" src="{{ url_for('static', filename='/image/mypage.png') }}"
+            <img alt="mypage" class="footer-icon" src="{{ url_for('static', filename='/image/icon/mypage.png') }}"
                  onclick="my_page()">
         </div>
     </div>
