@@ -1,34 +1,13 @@
 from flask import Flask, render_template, jsonify, request, session, redirect, url_for
-from bs4 import BeautifulSoup as bs
-from pprint import pprint
-import requests
-
-html = requests.get('https://search.naver.com/search.naver?query=날씨')
-#pprint(html.text)
-
-soup = bs(html.text, 'html.parser')
-
-data1 = soup.find('div', {'class':'detail_box'})
-pprint(data1)
-
-# data2 = data1.find('dd')
-# # pprint(data2)
-#
-# fine_dust = data2[0].find('span',{'class':'num'}).text
-# print(fine_dust)
-#
-# ultra_fine_dust = data2[1].find('span',{'class':'num'}).text
-# print(ultra_fine_dust)
-
-
-
 
 app = Flask(__name__)
 
 from pymongo import MongoClient
 import certifi
 
-client = MongoClient('mongodb+srv://test:sparta@cluster0.nggqc.mongodb.net/Cluster0?retryWrites=true&w=majority', tlsCAFile=certifi.where())
+client = MongoClient(
+    'mongodb+srv://neworld27:neworld7!@cluster0.0wabn.mongodb.net/Cluster0?retryWrites=true&w=majority',
+    tlsCAFile=certifi.where())
 db = client.dbsparta
 
 # JWT 토큰을 만들 때 필요한 비밀문자열입니다. 아무거나 입력해도 괜찮습니다.
@@ -44,6 +23,7 @@ import datetime
 # 회원가입 시엔, 비밀번호를 암호화하여 DB에 저장해두는 게 좋습니다.
 # 그렇지 않으면, 개발자(=나)가 회원들의 비밀번호를 볼 수 있으니까요.^^;
 import hashlib
+
 
 #################################
 ##  HTML을 주는 부분             ##
@@ -83,6 +63,7 @@ def login():
 @app.route('/sign_up')
 def register():
     return render_template('signup.html')
+
 
 # id, pw, nickname, gender, address, dogbreed, dogsize를 받아서, mongoDB에 저장합니다.
 # 저장하기 전에, pw를 sha256 방법(=단방향 암호화. 풀어볼 수 없음)으로 암호화해서 저장합니다.
@@ -197,33 +178,17 @@ def api_valid():
 def walk_possible():
     return render_template('walking_possibility_yes.html')
 
+
 # 산책 메이트 찾기 페이지 출력
 @app.route('/walkmate', methods=["GET"])
 def walkmate():
     return render_template("walkmate_search.html")
 
-# 스토리 게시글 추가 페이지 출력
-@app.route('/add_post', methods=["GET"])
-def story_post():
-    token_receive = request.cookies.get('mytoken')
-    # 암호화되어있는 token의 값을 우리가 사용할 수 있도록 디코딩(암호화 풀기)해줍니다!
-    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-    # email로 db에서 유저를 찾아 user_info 변수에 저장해줍니다.
-    user_info = db.members.find_one({"email": payload['email']})
-    return render_template("add_post.html", nickname=user_info["nickname"])
 
 # 샵 페이지 출력
 @app.route('/shop', methods=["GET"])
 def shop():
     return render_template("pet_goods.html")
-
-# 마이 페이지 출력
-@app.route('/my_page', methods=["GET"])
-def my_page():
-    token_receive = request.cookies.get('mytoken')
-    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-    token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
-    return render_template("mypage.html", mytoken=token)
 
 
 ############################
@@ -261,22 +226,23 @@ def select_walkmate_conditions():
     return jsonify({'result': 'success'})
     ### 새로운 해결방안 부분 ###
 
-
     # searched_members가 비어있지 않다면 즉, 발견했다면(0이 아닌 숫자는 True이므로)
     # if searched_members:
-        # 고생의 흔적들. 아래 세개의 함수를 각각 언제 써야하는지에 대해 공부.
-        # return jsonify({'result': 'success', 'found_members': searched_members})
-        # return render_template('walkmate_list.html', found_members=searched_members)
-        # return redirect(url_for('move_walkmate_list', found_members=searched_members))
+    # 고생의 흔적들. 아래 세개의 함수를 각각 언제 써야하는지에 대해 공부.
+    # return jsonify({'result': 'success', 'found_members': searched_members})
+    # return render_template('walkmate_list.html', found_members=searched_members)
+    # return redirect(url_for('move_walkmate_list', found_members=searched_members))
     # else:
-        # 멤버를 찾지 못한 경우 원래의 조건 검색 페이지에서 실패 메시지 출력 후 다시 검색하도록 함.
-        # return jsonify({'result': 'fail', 'msg': '아무도 없네요ㅜ..다른 조건으로 검색해주세요.'})
+    # 멤버를 찾지 못한 경우 원래의 조건 검색 페이지에서 실패 메시지 출력 후 다시 검색하도록 함.
+    # return jsonify({'result': 'fail', 'msg': '아무도 없네요ㅜ..다른 조건으로 검색해주세요.'})
 
 
 ### 새로운 해결방안 부분 ###
 @app.route('/walkmate/search', methods=["GET"])
 def move_walkmate_list():
     return render_template('walkmate_list.html')
+
+
 ### 새로운 해결방안 부분 ###
 
 ### 새로운 해결방안 부분 ###
@@ -293,12 +259,24 @@ def find_list():
     for m in db.members.find({
         'address': address_condition,
         'owner_gender': owner_gender_condition,
-        'dog_size': dog_size_condition},{'_id':False}):
+        'dog_size': dog_size_condition}, {'_id': False}):
         # for문 내부
         searched_members.append(m)
 
     return jsonify({'searched_members': searched_members})
+
+
 ### 새로운 해결방안 부분 ###
+
+# 스토리 게시글 추가 페이지 출력
+@app.route('/add_post', methods=["GET"])
+def story_post():
+    token_receive = request.cookies.get('mytoken')
+    # 암호화되어있는 token의 값을 우리가 사용할 수 있도록 디코딩(암호화 풀기)해줍니다!
+    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+    # email로 db에서 유저를 찾아 user_info 변수에 저장해줍니다.
+    user_info = db.members.find_one({"email": payload['email']})
+    return render_template("add_post.html", nickname=user_info["nickname"])
 
 
 ############################
@@ -313,7 +291,7 @@ def story_add_post():
     # email로 db에서 유저를 찾아 user_info 변수에 저장해줍니다.
     user_info = db.members.find_one({"email": payload['email']})
 
-    nickname = user_info['nickname']
+    nick = user_info['nickname']
     file = request.files['file_give']
     comment_receive = request.form['comment_give']
     hash_receive = request.form['hash_give']
@@ -332,26 +310,43 @@ def story_add_post():
     # 아래와 같이 입하면 db에 추가 가능!
     doc = {
         'my_time': my_time,
-        'nickname': nickname,
+        'nickname': user_info['nickname'],
         'img': f'{filename}.{extension}',
         'comment': comment_receive,
         'hash': hash_receive
     }
-    db.all_story.insert_one(doc)
-
+    # db.all_story.insert_one(doc)
+    db.members.update_one({'nickname': user_info['nickname']}, {"$set": doc})
+    db.mypost.insert_one(doc)
+    # db.members.update_one({}, {"$set": {'hash': hash_receive}})
+    # db.members.update_one({}, {"$set": {'comment': comment_receive}})
+    # db.members.update_one({}, {"$set": {'my_time': my_time}})
+    # db.members.update_one({}, {"$set": {'img': f'{filename}.{extension}'}})
     return jsonify({'msg': '작성 완료'})
+
 
 # 게시글 불러오기
 @app.route('/get_post', methods=["GET"])
 def story_get():
-    story_list = list(db.all_story.find({}, {'_id': False}))
+    story_list = list(db.members.find({}, {'_id': False}))
     # 리스트를 역순으로 배열해, 출력시 가장 최근 게시물이 가장 앞에 오게끔 한다.
     # story_list = sorted(story_list, reverse=True)
     # story_list = story_list.sort(reverse=True)
 
     story_list.reverse()
-    print(story_list)
+
     return jsonify({'orders': story_list})
+
+
+# 마이 페이지 출력
+@app.route('/my_page', methods=["GET"])
+def my_page():
+    token_receive = request.cookies.get('mytoken')
+    # 암호화되어있는 token의 값을 우리가 사용할 수 있도록 디코딩(암호화 풀기)해줍니다!
+    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+    # email로 db에서 유저를 찾아 user_info 변수에 저장해줍니다.
+    token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+    return render_template("mypage.html", mytoken=token)
 
 
 ############################
@@ -360,9 +355,28 @@ def story_get():
 # 마이 페이지에서 내 전체 게시물 보기
 @app.route('/my_page/my_story', methods=["GET"])
 def my_story():
-    my_story_list = list(db.all_story.find({}, {'_id': False}))
+    token_receive = request.cookies.get('mytoken')
+    # 암호화되어있는 token의 값을 우리가 사용할 수 있도록 디코딩(암호화 풀기)해줍니다!
+    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+    # email로 db에서 유저를 찾아 user_info 변수에 저장해줍니다.
+    user_info = db.members.find_one({"email": payload['email']})
+
+    my_story_list = list(db.mypost.find({'nickname': user_info['nickname']}, {'_id': False}))
     my_story_list.reverse()
     return jsonify({'my_story_list': my_story_list})
+
+
+@app.route('/my_page/baseline', methods=["GET"])
+def my_page_baseline():
+    token_receive = request.cookies.get('mytoken')
+    # 암호화되어있는 token의 값을 우리가 사용할 수 있도록 디코딩(암호화 풀기)해줍니다!
+    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+    # email로 db에서 유저를 찾아 user_info 변수에 저장해줍니다.
+    user_info = db.members.find_one({"email": payload['email']})
+
+    baseline = list(db.members.find({'nickname': user_info['nickname']}, {'_id': False}))
+    return jsonify({'baseline': baseline})
+
 
 # __name__은 모듈의 이름이 저장되는 변수이며 import로 모듈을 가져왔을 때 모듈의 이름이 들어감.
 # 그런데 파이썬 인터프리터로 스크립트 파일을 직접 실행했을 때는 모듈의 이름이 아닌 __main__ 이 들어감.

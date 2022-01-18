@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>instargram</title>
+    <title>Gangstargram</title>
     <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet"/>
     <link href="/static/mainpage.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -48,17 +48,22 @@
                 data: {},
                 success: function (response) {
                     let rows = response['orders']
+
                     for (let i = 0; i < rows.length; i++) {
-                        let img = rows[i]['img']
+                        if (!rows[i]['img']){
+                            i = 1;
+                        }
+                        let profile_img = rows[i]['profile_img']
                         let comment = rows[i]['comment']
                         let hash = rows[i]['hash']
                         let nickname = rows[i]['nickname']
                         let my_time = rows[i]['my_time']
+                        let img = rows[i]['img']
 
                         let temp_html = `
                                                 <div class="user-container">
                                                     <div class="user-wrapper">
-                                                        <img src="/static/profile/${img}" class="user-icon" alt="story_icon">
+                                                        <img src="/static/profile/${profile_img}" class="user-icon" alt="story_icon">
                                                         <p class="user-text"><strong>${nickname}</strong></p>
                                                     </div>
                                                 </div>
@@ -83,7 +88,7 @@
 
                                                 <div class="like-howmany-container">
                                                     <div class="like_howmany-wrapper">
-                                                        <img src="/static/profile/${img}" class="howmany-icon" alt="story_icon">
+                                                        <img src="/static/profile/${profile_img}" class="howmany-icon" alt="story_icon">
                                                         <p class="howmany-text"><strong>${nickname}외 6222명이 좋아합니다.</strong></p>
                                                     </div>
                                                 </div>
