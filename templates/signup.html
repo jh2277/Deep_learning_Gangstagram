@@ -35,8 +35,8 @@
             // 견주 성별 저장 / 라디오 버튼의 value값을 ajax로 넘길때 문법!
             let owner_gender = $('input[name="usergender"]:checked').val()
             // 프로필 사진, 코멘트 저장
-            let file = $('#file')[0].files[0]
-            let introduce_comment = $('#introduce_comment').val()
+            // let file = $('#file')[0].files[0]
+            // let introduce_comment = $('#introduce_comment').val()
             // 견종, 견 크기 저장
             let dog_breed = $('#userdogbreed').val()
             let dog_size = $('input[name="userdogsize"]:checked').val()
@@ -47,8 +47,8 @@
             form_data.append('nickname_give', nickname)
             form_data.append('address_give', address)
             form_data.append('owner_gender_give', owner_gender)
-            form_data.append('file_give', file)
-            form_data.append('introduce_comment_give', introduce_comment)
+            // form_data.append('file_give', file)
+            // form_data.append('introduce_comment_give', introduce_comment)
             form_data.append('dog_breed_give', dog_breed)
             form_data.append('dog_size_give', dog_size)
 
@@ -99,12 +99,51 @@
                 }
             });
         }
+
+        // 견종 예측
+        function dog_breed_predicting() {
+            let nickname = $('#usernick').val()
+            let file = $('#file')[0].files[0]
+            let form_data = new FormData()
+
+            form_data.append("nickname_give", nickname)
+            form_data.append("file_give", file)
+
+            $.ajax({
+                type: "POST",
+                url: "/fileupload_predict",
+                data: form_data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    // alert(response["result"])
+                    // 아래처럼 하지 않아도, 백엔드(app.py)에서 바로 판별 함수를 실행한 뒤에
+                    // render_template 을 해서 바로 결과 페이지로 넘어가도 됨
+                    // nickname = response['nickname']
+                    // window.location.href="/result?nickname=" + nickname
+
+                    // 위처럼 하지 않고 바로 판별 함수를 실행하여 jsonify로 예측값을 return 받음.
+                    if(response['result'] === 'success'){
+                        // 받아온 예측 견종을 id=userdogbreed 인 input 태그의 value로 넣어 사용자에게 보여지게 함.
+                        let pred_label = response['pred_label']
+                        document.getElementById('userdogbreed').value = pred_label
+
+                        let temp_html = `<div class="temp">
+                                            AI가 예측한 견종은 ${pred_label} 입니다.
+                                            만약 예측한 견종이 틀렸다면 견종을 정식 영문명으로 수정해주세요.
+                                        </div>`
+                        $('#predict_dog_breed').append(temp_html)
+                    }
+                }
+            });
+        }
     </script>
 </head>
 <body>
 
 <div id="top">
-    <img src="{{ url_for('static', filename='/image/img.png') }}" class="logo" alt="gangstagram">
+    <img src="{{ url_for('static', filename='/image/icon/img.png') }}" class="logo" alt="gangstagram">
 </div>
 
 <div class="container">
@@ -125,7 +164,7 @@
         </div>
         <div class="row g-1">
             <div class="col2">
-                <select id="address_selectbox" name="address_selectbox" class="address_selectbox">
+                <select id="address_selectbox" name="address_selectbox" class="address_selectbox" onfocus='this.size=3;' onblur='this.size=1;' onchange='this.size=1; this.blur();'>
                     <!-- 해당 옵션이 선택되지 않도록 해당 옵션 태그에 selected disabled -->
                     <option value="" selected disabled>상세 주소 선택</option>
                 </select>
@@ -167,15 +206,18 @@
 
     <!-- 프로필 사진, 간단 코멘트 작성 부분 -->
     <div class="file-upload">
-        <input type="file" id="file">
-        <input style="width:300px;" type="text" id="introduce_comment" placeholder="간단히 자기소개를 해주세요.">
+        <input type="file" id="file" onchange="document.getElementById('blah').src = window.URL.createObjectURL(this.files[0])">
+        <img id="blah" alt="image_preview" width="100" height="100" />
+        <button onclick="dog_breed_predicting()">견종은?</button>
+        <div id="predict_dog_breed"></div>
+        <!-- <input style="width:300px;" type="text" id="introduce_comment" placeholder="간단히 자기소개를 해주세요."> -->
     </div>
 
     </br>
 
     <div id="doginfo">
         <div class="col">
-            <input type="text" class="form-control" id="userdogbreed" placeholder="애견종류" aria-label="Last name">
+            <input type="text" value="" class="form-control" id="userdogbreed" placeholder="애견종류" aria-label="Last name">
         </div>
     </div>
     </br>

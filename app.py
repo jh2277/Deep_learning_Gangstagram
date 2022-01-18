@@ -65,6 +65,134 @@ def register():
     return render_template('signup.html')
 
 
+#################################################
+# singup.html / 업로드한 강아지 이미지 견종 예측 API #
+#################################################
+# 사용자 nickname 디렉토리 밑에 강아지 이미지 파일 업로드 및 predict_result(nickname) 함수로 예측 결과를 return
+@app.route('/fileupload_predict', methods=['POST'])
+def file_upload():
+    file = request.files['file_give']
+    nickname = request.form['nickname_give']
+
+    # 해당 경로의 사용자 닉네임 폴더가 없다면 사용자 닉네임 폴더 생성
+    if not os.path.exists(f'static/image/profile/{nickname}'):
+        os.makedirs(f'static/image/profile/{nickname}')
+
+    # 해당 파일에서 확장자명만 추출
+    extension = file.filename.split('.')[-1]
+    # 파일 이름이 중복되면 안되므로, 지금 시간을 해당 파일 이름으로 만들어서 중복이 되지 않게 함!
+    today = datetime.datetime.now()
+    mytime = today.strftime('%Y-%m-%d-%H-%M-%S')
+    filename = f'{mytime}'
+    # 파일 저장 경로 설정 (파일은 서버 컴퓨터 자체에 저장됨)
+    save_to = f'static/image/profile/{nickname}/{filename}.{extension}'
+    # 파일 저장!
+    file.save(save_to)
+
+    # 예측하기. predict_result() 함수 통과.
+    # 사용자 nickname 디렉토리 밑에 저장되는 이미지 파일을 예측하기 위해 nickname 변수를 보냄.
+    pred_label = predict_result(nickname)
+
+    return jsonify({'result': 'success', 'pred_label': pred_label})
+    # return redirect(url_for("predict_result", nickname=nickname))
+
+# 사용자 nickname 디렉토리 밑의 강아지 이미지로 견종 예측 결과를 return 하는 함수.
+# @app.route('/result')
+def predict_result(nickname):
+    # nickname = request.args.get("nickname")
+    test_dir = f'static/dog_breed_classes'
+    print(test_dir)
+
+     # 모델은 불러와져 있으니, 사용자가 올린 데이터를 predict 함수에 넣어주면 됨
+      # 이미지이기에, rescale 및 size 조정을 위해 ImageDataGenerator 활용
+    test_datagen = ImageDataGenerator(rescale = 1./255)
+
+    test_generator = test_datagen.flow_from_directory(
+            test_dir,
+            # target_size 는 학습할때 설정했던 사이즈와 일치해야 함
+            target_size =(224, 224),
+            color_mode ="rgb",
+            shuffle = False,
+            # dog_breed_classes 셋의 경우, 굳이 클래스가 필요하지 않음
+            # 학습할때는 꼭 binary 혹은 categorical 로 설정해줘야 함에 유의
+            class_mode = None,
+            batch_size = 1)
+
+    # 레이블링 {'클래스명' : 숫자}
+    # {'Afghan' : 0} 과 같은식.
+    labels = test_generator.class_indices
+    print(labels)
+    # {'클래스명' : 숫자} -> {숫자 : '클래스명'} 으로 변경
+    # {0 : 'Afghan'} 과 같은식.
+    class_mapping = dict((v, k) for k, v in labels.items())
+    print(class_mapping)
+
+    # 이미지 파일 read
+    # 이미지 파일이 들어있는 디렉토리 경로
+    path_dir = f'static/image/profile/{nickname}'
+
+    # 파이썬 표준 라이브러리 중 하나인 os의 listdir 함수를 사용.
+    # file_list 변수에 path_dir 디렉토리 내의 파일들이 담김.
+    file_list = os.listdir(path_dir)
+
+    # 이미지 = 디렉토리 경로/리스트[index]
+    img_name = path_dir + '/' + file_list[-1] # 맨 마지막 인덱스(즉, 최신)의 파일을 읽음.
+
+    # imread(filename: 이미지파일 경로, flag: 이미지를 읽어오는 방식)
+    # cv2.IMREAD_COLOR = 이미지를 컬러로 읽음. / cv2.IMREAD_GRAYSCALE = 이미지를 그레이 스케일로 읽음.
+    # img_read = cv2.imread(img_name, cv2.IMREAD_COLOR)
+
+    # 위와 같이 cv.imread를 할 경우 한글 경로를 인식하지 못하는 문제가 발생.
+    # 이미지를 cv2.imread로 바로 읽는 대신 np.fromfile 함수를 이용해서 바이너리 데이터를 넘파이 행렬로 읽음.
+    img_array = np.fromfile(img_name, np.uint8)
+    # 그 다음에 cv2.imdecode 함수로 복호화를 통해 opencv에서 사용할 수 있는 형태로 바꿔줌.
+    img_read = cv2.imdecode(img_array, cv2.IMREAD_COLOR)
+
+    # 이미지 출력해보기(제대로 가져왔는지 테스트)
+    # cv2.imshow('image', img_read) # imshow(title : 윈도우 창의 이름, image : cv2.imread()의 리턴값)
+    # cv2.waitKey(0)  # 키보드 입력을 대기하는 함수, milisecond값을 넣으면 해당 시간동안 대기, 0인경우 무한으로 대기
+
+
+    # Convert to numpy array(이미지를 Numpy 배열로 변환)
+    img_arr = image.img_to_array(img_read)
+    # 읽어온 이미지 파일의 각 픽셀들을 255.0 으로 나눠 일반화!
+    img_arr = img_arr / 255.0
+    print('데이터타입 : ', img_arr.dtype)
+    print('이미지 shape(가로,세로,흑백(1)or컬러(3)) : ', img_arr.shape)
+    print('타입 : ', type(img_arr))
+    print(img_arr)
+
+    # keras 모델은 한 번에 샘플의 묶음(batch)로 예측을 만드는데 최적화되어 있음
+    # 때문에 하나의 이미지를 사용할 때에도 2차원 배열로 만들어야 함.
+    img = np.expand_dims(img_arr, axis=0)
+
+    # 드디어 예측!
+    predictions_single = model.predict(img)
+    print('이미지 예측 결과:\n', predictions_single)
+    highest_percentage = np.max(predictions_single[0]) # np.max()
+    print('가장 높은 확률값: ', highest_percentage)
+    index_highest_percentage = np.argmax(predictions_single[0]) # np.argmax()
+    print('가장 높은 확률 값의 인덱스: ', index_highest_percentage)
+
+    # {숫자(인덱스) : '클래스명'(견종)} 매핑 해놓은 곳에서 해당 인덱스의 라벨 값(견종)을 가져옴
+    pred_label = class_mapping[index_highest_percentage]
+    print(pred_label)
+
+    # return render_template('tensorflow_test.html', pred_label=pred_label)
+    # return jsonify({'result': 'success', 'pred_label': pred_label})
+    return pred_label
+
+
+
+
+
+
+
+
+
+
+
+
 # id, pw, nickname, gender, address, dogbreed, dogsize를 받아서, mongoDB에 저장합니다.
 # 저장하기 전에, pw를 sha256 방법(=단방향 암호화. 풀어볼 수 없음)으로 암호화해서 저장합니다.
 @app.route('/sign_up/request', methods=['POST'])
@@ -74,26 +202,38 @@ def register_post():
     nickname_receive = request.form['nickname_give']
     address_receive = request.form['address_give']
     owner_gender_receive = request.form['owner_gender_give']
-    file_receive = request.files['file_give']
-    introduce_comment_receive = request.form['introduce_comment_give']
+    # file_receive = request.files['file_give']
+    # introduce_comment_receive = request.form['introduce_comment_give']
     dog_breed_receive = request.form['dog_breed_give']
     dog_size_receive = request.form['dog_size_give']
 
     # 비밀번호를 sha256 방법으로 단방향 암호화
     pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
 
-    ### 이미지 파일 저장 부분 ###
-    # 해당 파일에서 확장자명만 추출
-    extension = file_receive.filename.split('.')[-1]
-    # 파일 이름이 중복되면 안되므로, 지금 시간을 해당 파일 이름으로 만들어서 중복이 되지 않게 함!
-    today = datetime.datetime.now()
-    my_time = today.strftime('%Y-%m-%d-%H-%M-%S')
-    filename = f'{my_time}'
-    # 파일 저장 경로 설정 (파일은 db가 아니라, 서버 컴퓨터 자체에 저장됨)
-    save_to = f'static/profile/{filename}.{extension}'
-    # 파일 저장!
-    file_receive.save(save_to)
-    ### 이미지 파일 저장 부분 ###
+    # ### 이미지 파일 저장 부분 ###
+    # # 해당 파일에서 확장자명만 추출
+    # extension = file_receive.filename.split('.')[-1]
+    # # 파일 이름이 중복되면 안되므로, 지금 시간을 해당 파일 이름으로 만들어서 중복이 되지 않게 함!
+    # today = datetime.datetime.now()
+    # my_time = today.strftime('%Y-%m-%d-%H-%M-%S')
+    # filename = f'{my_time}'
+    # # 파일 저장 경로 설정 (파일은 db가 아니라, 서버 컴퓨터 자체에 저장됨)
+    # save_to = f'static/profile/{filename}.{extension}'
+    # # 파일 저장!
+    # file_receive.save(save_to)
+    # ### 이미지 파일 저장 부분 ###
+
+
+    # 이미지 파일이 들어있는 디렉토리 경로
+    path_dir = f'static/image/profile/{nickname_receive}'
+
+    # 파이썬 표준 라이브러리 중 하나인 os의 listdir 함수를 사용.
+    # file_list 변수에 path_dir 디렉토리 내의 파일들이 담김.
+    file_list = os.listdir(path_dir)
+
+    # 이미지 = 디렉토리 경로/리스트[index]
+    profile_img = path_dir + '/' + file_list[-1]  # 맨 마지막 인덱스(즉, 최신)의 파일을 읽음.
+
 
     doc = {
         'email': email_receive,
@@ -101,15 +241,18 @@ def register_post():
         'nickname': nickname_receive,
         'address': address_receive,
         'owner_gender': owner_gender_receive,
-        'profile_img': f'{filename}.{extension}',
-        'introduce_comment': introduce_comment_receive,
+        'profile_img': profile_img,
+        # 'introduce_comment': introduce_comment_receive,
         'dog_breed': dog_breed_receive,
         'dog_size': dog_size_receive,
     }
 
     db.members.insert_one(doc)
-    # db.members.update({'nickname': nickname_receive}, {'$set': {'temp':temp_receive}}, upsert=True)
-    # db.members.update({'nickname': "남집사"}, {'$push': {'temp': temp_receive}})
+    # upsert=Ture 일경우, filter와 일치하는 문서가 없을경우 삽입 수행. 기본적으로 upsert=True로 하지 않아도 True로 되어있다.
+    # db.members.update_one({'email': user_info['email']}, {'$set': {'temp':temp_receive}}, upsert=True)
+    # db.members.update_one({'dog_size': 'small'}, {'$set': {'owner_gender': 'female'}}, upsert=True) # 잘 수정 됨.
+    # db.members.update_one({'nickname': nickname_receive}, {'$set': {'temp':temp_receive}}, upsert=True)
+    # db.members.update_one({'nickname': '강집사1'}, {'$push': {'temp': temp_receive}}) # 한글 인식이 안되는것으로 보임.
     return jsonify({'result': 'success'})
 
 
